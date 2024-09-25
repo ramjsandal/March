@@ -44,6 +44,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool Teleport(Vector2Int pos)
+    {
+        if (_gridManager.map.ContainsKey(pos))
+        {
+            TileInfo updatedLocation = _gridManager.map[pos];
+            if (updatedLocation.traversable)
+            {
+                gridPos = pos;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool Teleport(List<Vector2Int> viablePos, Vector2Int attemptedPos)
+    {
+
+        if (viablePos.Contains(attemptedPos))
+        {
+            return Teleport(attemptedPos);
+        }
+        return false;
+    }
+
     public bool Move(Direction dir)
     {
         Vector2Int updatedPos = gridPos;
@@ -80,17 +105,29 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W)) {
+        List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos, 4);
+        _gridManager.TintTiles(travTiles, Color.red);
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
             Move(Direction.UP);
-        } else if (Input.GetKeyDown(KeyCode.A))
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
         {
             Move(Direction.LEFT);
-        } else if (Input.GetKeyDown(KeyCode.S))
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             Move(Direction.DOWN);
-        } else if (Input.GetKeyDown (KeyCode.D))
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             Move(Direction.RIGHT);
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Teleport(travTiles, _gridManager.GetCellPosition(mousePos));
         }
 
     }

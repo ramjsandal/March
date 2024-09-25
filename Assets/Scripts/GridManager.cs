@@ -53,7 +53,7 @@ public class GridManager : MonoBehaviour
             for (int y = traversable.cellBounds.yMin; y < traversable.cellBounds.yMax; y++)
             {
                 Vector3 worldPosition = traversable.CellToWorld(new Vector3Int(x, y, 0));
-                if (notTraversable.HasTile(notTraversable.LocalToCell(worldPosition)))
+                if (notTraversable.HasTile(notTraversable.WorldToCell(worldPosition)))
                 {
                     map.Add(new Vector2Int(x, y), new TileInfo(false, false));
                 }
@@ -79,13 +79,59 @@ public class GridManager : MonoBehaviour
 
         if (tile.traversable)
         {
-            return (Vector2) traversable.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y, 0));
-        } else
+            return (Vector2)traversable.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y, 0));
+        }
+        else
         {
-            return (Vector2) notTraversable.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y, 0)); 
+            return (Vector2)notTraversable.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y, 0));
+        }
+    }
+
+    private void TintTile(Vector2Int gridPos, Color color)
+    {
+        TileInfo tile;
+        bool exists = map.TryGetValue(gridPos, out tile);
+        Vector3Int posn = new Vector3Int(gridPos.x, gridPos.y, 0);
+
+        if (!exists)
+        {
+            throw new ArgumentException("tile does not exist on grid");
+        }
+
+        if (tile.traversable)
+        {
+            traversable.SetTileFlags(posn, TileFlags.None);
+            traversable.SetColor(posn, color);
+        }
+        else
+        {
+            traversable.SetTileFlags(posn, TileFlags.None);
+            notTraversable.SetColor(posn, color);
         }
 
     }
+
+    public void TintTiles(List<Vector2Int> tiles, Color color)
+    {
+        foreach (var tile in map)
+        {
+            if (tiles.Contains(tile.Key))
+            {
+                TintTile(tile.Key, color);
+            } else
+            {
+                TintTile(tile.Key, Color.white);
+            }
+        }
+    }
+
+    public Vector2Int GetCellPosition(Vector3 worldPos)
+    {
+        Vector3Int pos3 = traversable.WorldToCell(worldPos);
+        Vector2Int pos = new Vector2Int(pos3.x, pos3.y);
+        return pos;
+    }
+
     private List<Vector2Int> GetNeighbors(Vector2Int position)
     {
         List<Vector2Int> neighbors = new List<Vector2Int>();
@@ -218,10 +264,4 @@ public class GridManager : MonoBehaviour
     }
 
 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
