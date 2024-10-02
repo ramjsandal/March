@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
             if (selected)
             {
                 Camera.main.transform.parent = transform;
-                Camera.main.transform.position = transform.position + new Vector3(0,0,-5);
+                Camera.main.transform.position = transform.position + new Vector3(0, 0, -5);
             }
         }
     }
@@ -39,10 +39,19 @@ public class Player : MonoBehaviour
         get => _gridPos;
         set
         {
+            Vector2Int? oldPos = _gridPos;
+
+            if (oldPos != null)
+            {
+                _gridManager.SetTraversability(oldPos.Value, true);
+            }
+
             _gridPos = value;
             if (_gridPos != null)
             {
                 transform.position = _gridManager.GetTileCenter(gridPos.Value);
+                _gridManager.SetTraversability(gridPos.Value, false);
+
             }
         }
     }

@@ -62,6 +62,14 @@ public class GridManager : MonoBehaviour
 
     }
 
+    public void SetTraversability(Vector2Int gridPos, bool traversability)
+    {
+        if (map.ContainsKey(gridPos))
+        {
+            map[gridPos].traversable = traversability; 
+        }
+    }
+
     public Vector2 GetTileCenter(Vector2Int gridPos)
     {
         TileInfo tile;
