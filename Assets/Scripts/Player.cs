@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using UnityEngine;
 using static GridManager;
 
@@ -16,7 +17,21 @@ public class Player : MonoBehaviour
 
     private GridManager _gridManager;
 
-    public bool selected = false;
+    private bool _selected = false;
+
+    public bool selected
+    {
+        get => _selected;
+        set
+        {
+            _selected = value;
+            if (selected)
+            {
+                Camera.main.transform.parent = transform;
+                Camera.main.transform.position = transform.position + new Vector3(0,0,-5);
+            }
+        }
+    }
 
     public PlayerMode mode = PlayerMode.MOVE;
 
