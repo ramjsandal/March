@@ -13,8 +13,6 @@ public class Player : MonoBehaviour
         ATTACK
     };
 
-    private Transform _transform;
-
     private GridManager _gridManager;
 
     private bool _selected = false;
@@ -35,22 +33,24 @@ public class Player : MonoBehaviour
 
     public PlayerMode mode = PlayerMode.MOVE;
 
-    private Vector2Int _gridPos;
-    public Vector2Int gridPos
+    private Vector2Int? _gridPos;
+    public Vector2Int? gridPos
     {
         get => _gridPos;
-        private set
+        set
         {
             _gridPos = value;
-            _transform.position = _gridManager.GetTileCenter(gridPos);
+            if (_gridPos != null)
+            {
+                transform.position = _gridManager.GetTileCenter(gridPos.Value);
+            }
         }
     }
 
     public void Start()
     {
-        _transform = GetComponent<Transform>();
         _gridManager = GridManager.Instance;
-        gridPos = _gridManager.GetCellPosition(_transform.position);
+        gridPos = _gridManager.GetCellPosition(transform.position);
     }
 
     public void SwapMode()
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
     public bool Move(Direction dir)
     {
-        Vector2Int updatedPos = gridPos;
+        Vector2Int updatedPos = gridPos.Value;
         switch (dir)
         {
             case Direction.UP:
@@ -125,7 +125,7 @@ public class Player : MonoBehaviour
     {
         if (selected)
         {
-            List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos, 4);
+            List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos.Value, 4);
             _gridManager.TintTiles(travTiles, Color.red);
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
@@ -137,13 +137,17 @@ public class Player : MonoBehaviour
 
     public bool MouseOnPlayer()
     {
-        Debug.Log(_gridManager.MouseToGrid() + ", " + gridPos);
         if (_gridManager.MouseToGrid() == gridPos)
         {
             return true;
         }
         return false;
 
+    }
+
+    public List<Vector2Int> GetClosestSquares(int numSquares)
+    {
+        return _gridManager.FindClosestTraversible(gridPos.Value, numSquares);
     }
 
 }

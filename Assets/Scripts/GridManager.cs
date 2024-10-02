@@ -42,11 +42,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-
-    }
-
     public void CreateGrid()
     {
         for (int x = traversable.cellBounds.xMin; x < traversable.cellBounds.xMax; x++)
@@ -267,6 +262,70 @@ public class GridManager : MonoBehaviour
         }
 
         return searched.Select(a => a.position).ToList();
+
+    }
+
+    public List<Vector2Int> FindClosestTraversible(Vector2Int startingSquare, int numSquaresToFind)
+    {
+        PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
+        NodeInfo start = new NodeInfo();
+        start.position = startingSquare;
+        start.parent = null;
+        toSearch.Enqueue(start, 0);
+
+        List<NodeInfo> searched = new List<NodeInfo>();
+
+        while (toSearch.Count > 0)
+        {
+            int currentDist;
+            NodeInfo current;
+            toSearch.TryPeek(out current, out currentDist);
+            toSearch.Dequeue();
+            searched.Add(current);
+
+            List<NodeInfo> neighbors = current.NeighborsToNodeInfos(GetNeighbors(current.position));
+
+            foreach (NodeInfo neighbor in neighbors)
+            {
+                // store dist
+                int distance = currentDist + 1;
+
+                // if weve already found x squares, were good
+                if (searched.Count > numSquaresToFind)
+                {
+                    break;
+                }
+
+                // if it isnt traversible, ignore this node
+                if (!map[neighbor.position].traversable)
+                {
+                    continue;
+                }
+
+                // we like this node, make it
+                NodeInfo toAdd = new NodeInfo();
+                toAdd.position = neighbor.position;
+                toAdd.parent = current.position;
+
+                // if already in searched list, dont add
+                if (searched.Contains(toAdd))
+                {
+                    continue;
+                }
+
+                bool inSearch = toSearch.UnorderedItems.Select(a => a.Element).Contains(toAdd);
+
+                if (!inSearch)
+                {
+                    toSearch.Enqueue(toAdd, distance);
+                }
+
+            }
+
+        }
+
+        return searched.Where(a => a.position != startingSquare).Select(a => a.position).ToList();
+
 
     }
 
