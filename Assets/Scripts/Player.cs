@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     private GridManager _gridManager;
 
+    public bool selected = false;
+
     public PlayerMode mode = PlayerMode.MOVE;
 
     private Vector2Int _gridPos;
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
     {
         _transform = GetComponent<Transform>();
         _gridManager = GridManager.Instance;
+        gridPos = _gridManager.GetCellPosition(_transform.position);
     }
 
     public void SwapMode()
@@ -105,30 +108,27 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
-        List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos, 4);
-        _gridManager.TintTiles(travTiles, Color.red);
-
-        if (Input.GetKeyDown(KeyCode.W))
+        if (selected)
         {
-            Move(Direction.UP);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            Move(Direction.LEFT);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            Move(Direction.DOWN);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            Move(Direction.RIGHT);
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Teleport(travTiles, _gridManager.GetCellPosition(mousePos));
+            List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos, 4);
+            _gridManager.TintTiles(travTiles, Color.red);
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Teleport(travTiles, _gridManager.MouseToGrid());
+            }
         }
 
     }
+
+    public bool MouseOnPlayer()
+    {
+        Debug.Log(_gridManager.MouseToGrid() + ", " + gridPos);
+        if (_gridManager.MouseToGrid() == gridPos)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
 }

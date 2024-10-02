@@ -35,15 +35,16 @@ public class GridManager : MonoBehaviour
         else
         {
             _instance = this;
+            traversable.CompressBounds();
+            notTraversable.CompressBounds();
+            map = new Dictionary<Vector2Int, TileInfo>();
+            CreateGrid();
         }
     }
 
     void Start()
     {
-        traversable.CompressBounds();
-        notTraversable.CompressBounds();
-        map = new Dictionary<Vector2Int, TileInfo>();
-        CreateGrid();
+
     }
 
     public void CreateGrid()
@@ -118,7 +119,8 @@ public class GridManager : MonoBehaviour
             if (tiles.Contains(tile.Key))
             {
                 TintTile(tile.Key, color);
-            } else
+            }
+            else
             {
                 TintTile(tile.Key, Color.white);
             }
@@ -130,6 +132,11 @@ public class GridManager : MonoBehaviour
         Vector3Int pos3 = traversable.WorldToCell(worldPos);
         Vector2Int pos = new Vector2Int(pos3.x, pos3.y);
         return pos;
+    }
+
+    public Vector2Int MouseToGrid()
+    {
+        return GetCellPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
     private List<Vector2Int> GetNeighbors(Vector2Int position)
