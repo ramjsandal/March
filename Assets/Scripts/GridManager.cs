@@ -169,13 +169,13 @@ public class GridManager : MonoBehaviour
         return neighbors;
 
     }
-    public struct NodeInfo
+    public class NodeInfo
     {
         // which position on the map does this correspond to
         public Vector2Int position;
 
         // parent node
-        public Vector2Int? parent;
+        public NodeInfo parent;
 
         public override bool Equals(object? obj)
         {
@@ -202,7 +202,7 @@ public class GridManager : MonoBehaviour
             {
                 NodeInfo current = new NodeInfo();
                 current.position = neighbor;
-                current.parent = this.position;
+                current.parent = this;
                 nodeInfos.Add(current);
             }
 
@@ -212,7 +212,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public List<Vector2Int> IndicateTraversible(Vector2Int startingSquare, int range)
+    public List<NodeInfo> IndicateTraversible(Vector2Int startingSquare, int range)
     {
         PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
         NodeInfo start = new NodeInfo();
@@ -250,7 +250,7 @@ public class GridManager : MonoBehaviour
                 // we like this node, make it
                 NodeInfo toAdd = new NodeInfo();
                 toAdd.position = neighbor.position;
-                toAdd.parent = current.position;
+                toAdd.parent = current;
 
                 // if already in searched list, dont add
                 if (searched.Contains(toAdd))
@@ -269,7 +269,7 @@ public class GridManager : MonoBehaviour
 
         }
 
-        return searched.Select(a => a.position).ToList();
+        return searched;
 
     }
 
@@ -313,7 +313,7 @@ public class GridManager : MonoBehaviour
                 // we like this node, make it
                 NodeInfo toAdd = new NodeInfo();
                 toAdd.position = neighbor.position;
-                toAdd.parent = current.position;
+                toAdd.parent = current;
 
                 // if already in searched list, dont add
                 if (searched.Contains(toAdd))

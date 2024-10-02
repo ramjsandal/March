@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
@@ -15,8 +17,9 @@ public class Player : MonoBehaviour
 
     private GridManager _gridManager;
 
-    private bool _selected = false;
+    private List<NodeInfo> _paths;
 
+    private bool _selected = false;
     public bool selected
     {
         get => _selected;
@@ -130,15 +133,44 @@ public class Player : MonoBehaviour
         return false;
     }
 
+    public List<Vector2Int> PathToSquare(Vector2Int pos)
+    {
+        // find the node info that has this position
+        NodeInfo current = _paths.Find(a => a.position == pos);
+        List<Vector2Int> path = new List<Vector2Int>();
+
+        while (current != null)
+        {
+            path.Add(current.position); 
+            current = current.parent;
+        }
+
+        path.RemoveAt(path.Count - 1);
+        path.Reverse();
+
+        return path;
+    }
+
+    IEnumerator MoveAlongPath(List<Vector2Int> path)
+    {
+        for (int i = 0; i < path.Count; i++) { 
+            Teleport(path[i]);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
     public void Update()
     {
         if (selected)
         {
-            List<Vector2Int> travTiles = _gridManager.IndicateTraversible(gridPos.Value, 4);
-            _gridManager.TintTiles(travTiles, Color.red);
+            List<NodeInfo> travTiles = _gridManager.IndicateTraversible(gridPos.Value, 4);
+            _paths = travTiles;
+            List<Vector2Int> coords = travTiles.Select(a => a.position).ToList(); 
+            _gridManager.TintTiles(coords, Color.red);
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Teleport(travTiles, _gridManager.MouseToGrid());
+                //Teleport(coords, _gridManager.MouseToGrid());
+                StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
             }
         }
 
