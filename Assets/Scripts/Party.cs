@@ -103,7 +103,7 @@ public class Party : MonoBehaviour
 
         for (int i = 0; i < partyMembers.Count; i++)
         {
-            if (partyMembers[i].MouseOnPlayer())
+            if (partyMembers[i].MouseOnAgent())
             {
                 retVal = i; break;
             }
