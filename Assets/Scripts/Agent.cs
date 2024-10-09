@@ -67,6 +67,39 @@ public class Agent : MonoBehaviour
         }
     }
 
+    private int _actionPoints;
+    public int actionPoints
+    {
+        get
+        {
+            return _actionPoints;
+        }
+
+        set
+        {
+            _actionPoints = value;
+        }
+    }
+
+    private bool _battling;
+    public bool battling
+    {
+        get
+        {
+            return _battling;
+        }
+
+        set
+        {
+            _battling = value;
+
+            if (_battling == true)
+            {
+                actionPoints = 2;
+            }
+        }
+    }
+
     public event EventHandler StoppedMoving;
 
     public void OnStoppedMoving(EventArgs e)
@@ -160,7 +193,14 @@ public class Agent : MonoBehaviour
         }
     }
 
-
+    public void ReplenishActionPoints()
+    {
+        actionPoints = 2;
+    }
+    public void ResetActionPoints()
+    {
+        actionPoints = 0;
+    }
 
 
 }

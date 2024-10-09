@@ -6,6 +6,25 @@ public class Party : MonoBehaviour
     public List<Player> partyMembers = new List<Player>();
 
     private bool collapsed = false;
+
+    private bool _battling;
+    public bool battling
+    {
+        get
+        {
+            return _battling;
+        }
+
+        set
+        {
+            _battling = value;
+            foreach (Player p in partyMembers)
+            {
+                p.battling = _battling;
+            }
+        }
+    }
+
     private int _selectedMemberIdx;
     public int SelectedMemberIdx
     {
@@ -40,17 +59,20 @@ public class Party : MonoBehaviour
             SelectPartyMember();
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (!battling)
         {
-            if (collapsed)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                ExpandParty();
-            }
-            else
-            {
-                CollapseParty();
-            }
+                if (collapsed)
+                {
+                    ExpandParty();
+                }
+                else
+                {
+                    CollapseParty();
+                }
 
+            }
         }
     }
 
@@ -125,5 +147,13 @@ public class Party : MonoBehaviour
         return positions;
     }
 
+    public void ResetActionPoints()
+    {
+        foreach (var partyMember in partyMembers) { partyMember.ResetActionPoints(); }
+    }
 
+    public void ReplenishActionPoints()
+    {
+        foreach (var partyMember in partyMembers) { partyMember.ReplenishActionPoints(); }
+    }
 }

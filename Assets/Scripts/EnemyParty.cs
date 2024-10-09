@@ -1,10 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyParty : MonoBehaviour
 {
     public List<Enemy> partyMembers = new List<Enemy>();
     public List<Vector2Int> aggroSquares = new List<Vector2Int>();
+
+    private bool _battling;
+    public bool battling
+    {
+        get
+        {
+            return _battling;
+        }
+
+        set
+        {
+            _battling = value;
+            foreach (Enemy e in partyMembers)
+            {
+                e.battling = _battling;
+            }
+        }
+    }
 
     void Start()
     {
@@ -15,13 +34,7 @@ public class EnemyParty : MonoBehaviour
 
         GetAggroSquares();
     }
-
-    void Update()
-    {
-
-    }
-
-    public void GetAggroSquares()
+    private void GetAggroSquares()
     {
         List<Vector2Int> aggro = new List<Vector2Int>();
         foreach (Enemy enemy in partyMembers)
@@ -29,5 +42,15 @@ public class EnemyParty : MonoBehaviour
             aggro.AddRange(enemy.GetAggroSquares());
         }
         aggroSquares = aggro;
+    }
+
+
+    public void ResetActionPoints()
+    {
+        foreach (var partyMember in partyMembers) { partyMember.ResetActionPoints(); }
+    }
+    public void ReplenishActionPoints()
+    {
+        foreach (var partyMember in partyMembers) { partyMember.ReplenishActionPoints(); }
     }
 }

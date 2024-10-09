@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class BattleManager : MonoBehaviour
 
     private Party playerParty;
     private List<EnemyParty> enemyPartyList;
+    private bool battling = false;
+    private bool playerTurn = true;
+    private int enemyBattling;
+
+    public Canvas battleCanvas;
 
     private void Awake()
     {
@@ -24,6 +30,9 @@ public class BattleManager : MonoBehaviour
         else
         {
             _instance = this;
+            battling = false;
+            battleCanvas.enabled = false;
+            playerTurn = true;
             playerParty = GameObject.FindObjectOfType<Party>();
             enemyPartyList = new List<EnemyParty>();
             enemyPartyList.AddRange(GameObject.FindObjectsOfType<EnemyParty>());
@@ -36,10 +45,19 @@ public class BattleManager : MonoBehaviour
 
     private void CheckBattleStart(object sender, EventArgs e)
     {
+        if (battling)
+        {
+            return;
+        }
         int fightingGroup = PlayerInAggro();
 
         if (fightingGroup == -1) { return; }
 
+        enemyBattling = fightingGroup;
+        battling = true;
+        playerParty.battling = true;
+        enemyPartyList[fightingGroup].battling = true;
+        battleCanvas.enabled = true;
         Debug.Log("STARTED A BATTLE");
     }
 
@@ -57,5 +75,29 @@ public class BattleManager : MonoBehaviour
 
         return -1;
     }
+
+    public void EndTurn()
+    {
+        if (battling)
+        {
+            if (playerTurn)
+            {
+                playerTurn = false;
+                playerParty.ResetActionPoints();
+                enemyPartyList[enemyBattling].ReplenishActionPoints();
+            } else
+            {
+                playerTurn = true;
+                playerParty.ReplenishActionPoints();
+                enemyPartyList[enemyBattling].ResetActionPoints();
+            }
+        }
+    }
+
+    private void Battle()
+    {
+        
+    }
+
 
 }

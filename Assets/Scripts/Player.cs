@@ -23,7 +23,8 @@ public class Player : Agent
             return;
         }
 
-        if (selected)
+        // NOT IN BATTLE
+        if (selected && !battling)
         {
             if (_selectedAction == SelectedAction.MOVING)
             {
@@ -36,6 +37,34 @@ public class Player : Agent
                     StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
                 }
             }
+            return;
+        }
+
+        // IN BATTLE
+        if (selected && battling)
+        {
+            // if we have no action points, we cant do anything
+            if (actionPoints <= 0)
+            {
+                _gridManager.NoTint();
+                return;
+            }
+
+            if (_selectedAction == SelectedAction.MOVING)
+            {
+                List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);
+                _paths = travTiles;
+                List<Vector2Int> coords = travTiles.Select(a => a.position).ToList();
+                _gridManager.TintTiles(coords, Color.red);
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    if (coords.Contains(_gridManager.MouseToGrid()))
+                    {
+                        StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
+                        actionPoints--;
+                    }
+                }
+            }
             else if (_selectedAction == SelectedAction.ATTACKING)
             {
                 List<NodeInfo> meleeTiles = _gridManager.IndicateMeleeable(gridPos.Value, meleeRange);
@@ -44,7 +73,11 @@ public class Player : Agent
                 _gridManager.TintTiles(coords, Color.red);
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    MeleeAttack();
+                    if (coords.Contains(_gridManager.MouseToGrid()))
+                    {
+                        MeleeAttack();
+                        actionPoints--;
+                    }
                 }
             }
 

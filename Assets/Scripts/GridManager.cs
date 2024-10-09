@@ -131,6 +131,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void NoTint()
+    {
+        foreach (var tile in map)
+        {
+            TintTile(tile.Key, Color.white);
+        }
+    }
+
     public Vector2Int GetCellPosition(Vector3 worldPos)
     {
         Vector3Int pos3 = traversable.WorldToCell(worldPos);
