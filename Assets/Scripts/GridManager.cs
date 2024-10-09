@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -336,6 +335,67 @@ public class GridManager : MonoBehaviour
         return searched;
 
     }
+    public List<NodeInfo> IndicateVisible(Vector2Int startingSquare, int range)
+    {
+        PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
+        NodeInfo start = new NodeInfo();
+        start.position = startingSquare;
+        start.parent = null;
+        toSearch.Enqueue(start, 0);
+
+        List<NodeInfo> searched = new List<NodeInfo>();
+
+        while (toSearch.Count > 0)
+        {
+            int currentDist;
+            NodeInfo current;
+            toSearch.TryPeek(out current, out currentDist);
+            toSearch.Dequeue();
+            searched.Add(current);
+
+            List<NodeInfo> neighbors = current.NeighborsToNodeInfos(GetNeighbors(current.position));
+
+            foreach (NodeInfo neighbor in neighbors)
+            {
+                // if were out of our range, ignore these nodes
+                int distance = currentDist + 1;
+                if (distance > range)
+                {
+                    break;
+                }
+
+                // if it isnt traversible or if it is occupied ignore this node
+                if (!map[neighbor.position].visible)
+                {
+                    continue;
+                }
+
+                // we like this node, make it
+                NodeInfo toAdd = new NodeInfo();
+                toAdd.position = neighbor.position;
+                toAdd.parent = current;
+
+                // if already in searched list, dont add
+                if (searched.Contains(toAdd))
+                {
+                    continue;
+                }
+
+                bool inSearch = toSearch.UnorderedItems.Select(a => a.Element).Contains(toAdd);
+
+                if (!inSearch)
+                {
+                    toSearch.Enqueue(toAdd, distance);
+                }
+
+            }
+
+        }
+
+        return searched;
+
+    }
+
 
     public List<Vector2Int> FindClosestTraversible(Vector2Int startingSquare, int numSquaresToFind)
     {

@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class Enemy : Agent
 {
-    private int aggroRange = 5;
+    private int aggroRange = 3;
     private List<Vector2Int> aggroSquares;
     private int health = 10;
-    private void Start()
+
+    public void Initialize()
     {
         _gridManager = GridManager.Instance;
         gridPos = _gridManager.GetCellPosition(transform.position);
+        GetAggroSquares();
     }
 
     public void TakeDamage(int dmg)
@@ -23,11 +25,10 @@ public class Enemy : Agent
             gameObject.SetActive(false);
         }
     }
-    /*
     public List<Vector2Int> GetAggroSquares()
     {
-        return _gridManager.IndicateTraversible(gridPos.Value, aggroRange).ToList();
+        aggroSquares = _gridManager.IndicateVisible(gridPos.Value, aggroRange).Select(a => a.position).ToList();
+        return aggroSquares; ;
     }
-    */
 
 }

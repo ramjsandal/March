@@ -42,10 +42,11 @@ public class Party : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (collapsed) 
+            if (collapsed)
             {
                 ExpandParty();
-            } else
+            }
+            else
             {
                 CollapseParty();
             }
@@ -108,7 +109,20 @@ public class Party : MonoBehaviour
         }
 
         return retVal;
+    }
 
+    public List<Vector2Int> GetPartyPositions()
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+        foreach (var partyMember in partyMembers)
+        {
+            if (partyMember.gridPos != null)
+            {
+                positions.Add(partyMember.gridPos.Value);
+            }
+        }
+
+        return positions;
     }
 
 

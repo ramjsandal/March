@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,6 +45,35 @@ public class Agent : MonoBehaviour
                 Camera.main.transform.parent = transform;
                 Camera.main.transform.position = transform.position + new Vector3(0, 0, -5);
             }
+        }
+    }
+
+    private bool _moving = false;
+    public bool moving
+    {
+        get
+        {
+            return _moving;
+        }
+
+        set
+        {
+            _moving = value;
+            if (_moving == false)
+            {
+                OnStoppedMoving(null);
+            }
+
+        }
+    }
+
+    public event EventHandler StoppedMoving;
+
+    public void OnStoppedMoving(EventArgs e)
+    {
+        if (StoppedMoving != null)
+        {
+            StoppedMoving(this, e);
         }
     }
 
@@ -112,11 +142,13 @@ public class Agent : MonoBehaviour
 
     protected IEnumerator MoveAlongPath(List<Vector2Int> path)
     {
+        moving = true;
         for (int i = 0; i < path.Count; i++)
         {
             Teleport(path[i]);
             yield return new WaitForSeconds(.25f);
         }
+        moving = false;
     }
 
     protected void ChangeSelectedAction()
