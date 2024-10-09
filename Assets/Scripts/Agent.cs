@@ -19,14 +19,14 @@ public class Agent : MonoBehaviour
 
             if (oldPos != null)
             {
-                _gridManager.SetTraversability(oldPos.Value, true);
+                _gridManager.SetOccupied(oldPos.Value, false);
             }
 
             _gridPos = value;
             if (_gridPos != null)
             {
                 transform.position = _gridManager.GetTileCenter(gridPos.Value);
-                _gridManager.SetTraversability(gridPos.Value, false);
+                _gridManager.SetOccupied(gridPos.Value, true);
 
             }
         }
@@ -46,6 +46,14 @@ public class Agent : MonoBehaviour
             }
         }
     }
+
+    protected enum SelectedAction
+    {
+        MOVING,
+        ATTACKING
+    };
+
+    protected SelectedAction _selectedAction;
 
 
     public bool Teleport(Vector2Int pos)
@@ -91,6 +99,11 @@ public class Agent : MonoBehaviour
             current = current.parent;
         }
 
+        if (path.Count == 0)
+        {
+            return path;
+        }
+
         path.RemoveAt(path.Count - 1);
         path.Reverse();
 
@@ -106,6 +119,14 @@ public class Agent : MonoBehaviour
         }
     }
 
+    protected void ChangeSelectedAction()
+    {
+        _selectedAction++;
+        if (_selectedAction > SelectedAction.ATTACKING)
+        {
+            _selectedAction = SelectedAction.MOVING;
+        }
+    }
 
 
 

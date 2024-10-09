@@ -14,11 +14,13 @@ public class GridManager : MonoBehaviour
     {
         public bool traversable;
         public bool visible;
+        public bool occupied;
 
-        public TileInfo(bool traversable, bool visible)
+        public TileInfo(bool traversable, bool visible, bool occupied)
         {
             this.traversable = traversable;
             this.visible = visible;
+            this.occupied = occupied;
         }
     }
 
@@ -51,22 +53,22 @@ public class GridManager : MonoBehaviour
                 Vector3 worldPosition = traversable.CellToWorld(new Vector3Int(x, y, 0));
                 if (notTraversable.HasTile(notTraversable.WorldToCell(worldPosition)))
                 {
-                    map.Add(new Vector2Int(x, y), new TileInfo(false, false));
+                    map.Add(new Vector2Int(x, y), new TileInfo(false, false, false));
                 }
                 else
                 {
-                    map.Add(new Vector2Int(x, y), new TileInfo(true, true));
+                    map.Add(new Vector2Int(x, y), new TileInfo(true, true, false));
                 }
             }
         }
 
     }
 
-    public void SetTraversability(Vector2Int gridPos, bool traversability)
+    public void SetOccupied(Vector2Int gridPos, bool occupied)
     {
         if (map.ContainsKey(gridPos))
         {
-            map[gridPos].traversable = traversability; 
+            map[gridPos].occupied = occupied;
         }
     }
 
@@ -212,7 +214,8 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public List<NodeInfo> IndicateTraversible(Vector2Int startingSquare, int range)
+    // checks if a square is both traversable and unoccupied
+    public List<NodeInfo> IndicateMovable(Vector2Int startingSquare, int range)
     {
         PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
         NodeInfo start = new NodeInfo();
@@ -241,7 +244,68 @@ public class GridManager : MonoBehaviour
                     break;
                 }
 
-                // if it isnt traversible, ignore this node
+                // if it isnt traversible or if it is occupied ignore this node
+                if (!map[neighbor.position].traversable || map[neighbor.position].occupied)
+                {
+                    continue;
+                }
+
+                // we like this node, make it
+                NodeInfo toAdd = new NodeInfo();
+                toAdd.position = neighbor.position;
+                toAdd.parent = current;
+
+                // if already in searched list, dont add
+                if (searched.Contains(toAdd))
+                {
+                    continue;
+                }
+
+                bool inSearch = toSearch.UnorderedItems.Select(a => a.Element).Contains(toAdd);
+
+                if (!inSearch)
+                {
+                    toSearch.Enqueue(toAdd, distance);
+                }
+
+            }
+
+        }
+
+        return searched;
+
+    }
+
+    public List<NodeInfo> IndicateMeleeable(Vector2Int startingSquare, int range)
+    {
+        PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
+        NodeInfo start = new NodeInfo();
+        start.position = startingSquare;
+        start.parent = null;
+        toSearch.Enqueue(start, 0);
+
+        List<NodeInfo> searched = new List<NodeInfo>();
+
+        while (toSearch.Count > 0)
+        {
+            int currentDist;
+            NodeInfo current;
+            toSearch.TryPeek(out current, out currentDist);
+            toSearch.Dequeue();
+            searched.Add(current);
+
+            List<NodeInfo> neighbors = current.NeighborsToNodeInfos(GetNeighbors(current.position));
+
+            foreach (NodeInfo neighbor in neighbors)
+            {
+                // if were out of our range, ignore these nodes
+                int distance = currentDist + 1;
+                if (distance > range)
+                {
+                    break;
+                }
+
+                // if it isnt traversible ignore this node
                 if (!map[neighbor.position].traversable)
                 {
                     continue;
