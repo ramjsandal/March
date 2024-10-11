@@ -5,7 +5,6 @@ using static GridManager;
 
 public class Player : Agent
 {
-    public int moveRange = 4;
     public int meleeRange = 1;
     public int meleeDamage = 10;
     private List<Vector2Int> _meleeTiles = new List<Vector2Int>();

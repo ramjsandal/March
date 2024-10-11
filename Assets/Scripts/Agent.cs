@@ -42,7 +42,7 @@ public class Agent : MonoBehaviour
             _selected = value;
             if (selected)
             {
-                Camera.main.transform.parent = transform;
+                //Camera.main.transform.parent = transform;
                 Camera.main.transform.position = transform.position + new Vector3(0, 0, -5);
             }
         }
@@ -99,6 +99,12 @@ public class Agent : MonoBehaviour
             }
         }
     }
+
+    public int health = 10;
+
+    public int moveRange = 4;
+
+    public bool alive = true;
 
     public event EventHandler StoppedMoving;
 
@@ -201,6 +207,19 @@ public class Agent : MonoBehaviour
     {
         actionPoints = 0;
     }
+
+    public void TakeDamage(int dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            gridPos = null;
+            Debug.Log("Died");
+            alive = false;
+            gameObject.SetActive(false);
+        }
+    }
+
 
 
 }

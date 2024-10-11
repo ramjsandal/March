@@ -186,6 +186,9 @@ public class GridManager : MonoBehaviour
         // parent node
         public NodeInfo parent;
 
+        // distance from origin in moves
+        public int distance;
+
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -222,6 +225,7 @@ public class GridManager : MonoBehaviour
 
 
     // checks if a square is both traversable and unoccupied
+    // if we give range = -1, search whole map
     public List<NodeInfo> IndicateMovable(Vector2Int startingSquare, int range)
     {
         PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
@@ -246,7 +250,7 @@ public class GridManager : MonoBehaviour
             {
                 // if were out of our range, ignore these nodes
                 int distance = currentDist + 1;
-                if (distance > range)
+                if (distance > range && range != -1)
                 {
                     break;
                 }
@@ -261,6 +265,7 @@ public class GridManager : MonoBehaviour
                 NodeInfo toAdd = new NodeInfo();
                 toAdd.position = neighbor.position;
                 toAdd.parent = current;
+                toAdd.distance = distance;
 
                 // if already in searched list, dont add
                 if (searched.Contains(toAdd))
@@ -466,6 +471,22 @@ public class GridManager : MonoBehaviour
 
         return searched.Where(a => a.position != startingSquare).Select(a => a.position).ToList();
 
+    }
+
+    public (Vector2Int, int) FindClosestSquare(List<Vector2Int> candidates, Vector2Int goal)
+    {
+        List<NodeInfo> distances = IndicateMovable(goal, -1);
+        distances.Sort((a,b) => a.distance.CompareTo(b.distance));
+
+        foreach (NodeInfo neighbor in distances)
+        {
+            if (candidates.Contains(neighbor.position))
+            {
+                return (neighbor.position, neighbor.distance);
+            }
+        }
+
+        return (new Vector2Int(), -1);
 
     }
 

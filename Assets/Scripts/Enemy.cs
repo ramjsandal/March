@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static GridManager;
 
 public class Enemy : Agent
 {
     private int aggroRange = 3;
     private List<Vector2Int> aggroSquares;
-    private int health = 10;
 
     public void Initialize()
     {
@@ -16,19 +16,57 @@ public class Enemy : Agent
         GetAggroSquares();
     }
 
-    public void TakeDamage(int dmg)
+    public void Update()
     {
-        health -= dmg;
-        if (health <= 0)
+        if (!battling)
         {
-            gridPos = null;
-            gameObject.SetActive(false);
+            return;
         }
+
+        if (actionPoints <= 0)
+        {
+            return;
+        }
+
+
     }
+
     public List<Vector2Int> GetAggroSquares()
     {
         aggroSquares = _gridManager.IndicateVisible(gridPos.Value, aggroRange).Select(a => a.position).ToList();
         return aggroSquares; ;
+    }
+
+    public void MakeMove(List<Player> players)
+    {
+
+        // hit closest player
+        // check 4 surrounding squares
+        List<NodeInfo> meleeTiles = _gridManager.IndicateMeleeable(gridPos.Value, 1);
+        List<Vector2Int> coords = meleeTiles.Select(a => a.position).ToList();
+        List<Vector2Int> playersInMeleeRange = coords.Intersect(players.Select(a => a.gridPos.Value)).ToList();
+        if (playersInMeleeRange.Count > 0)
+        {
+            // hit the first one
+            Vector2Int victimPos = playersInMeleeRange[0];
+            Player victim = players.First(a => a.gridPos == victimPos);
+            victim.TakeDamage(5);
+            actionPoints--;
+            return;
+        }
+
+        // move to closest player
+        List<Vector2Int> sqauresInRange = _gridManager.IndicateMovable(gridPos.Value, moveRange).Select(a => a.position).ToList();
+        List<(Vector2Int, int)> closestSquares = new List<(Vector2Int, int)>();
+        foreach (Player player in players)
+        {
+            (Vector2Int, int) posAndRange = _gridManager.FindClosestSquare(sqauresInRange, player.gridPos.Value);
+            closestSquares.Add(posAndRange);
+        }
+        closestSquares.Sort((a, b) => a.Item2.CompareTo(b.Item2));
+        Teleport(closestSquares[0].Item1);
+        actionPoints--;
+        return;
     }
 
 }

@@ -85,7 +85,31 @@ public class BattleManager : MonoBehaviour
                 playerTurn = false;
                 playerParty.ResetActionPoints();
                 enemyPartyList[enemyBattling].ReplenishActionPoints();
-            } else
+                var enemyParty = enemyPartyList[enemyBattling].partyMembers;
+
+                // do enemy turn
+                int numAliveEnemies = 0;
+                foreach (Enemy e in enemyParty)
+                {
+                    while (e.actionPoints > 0)
+                    {
+                        if (e.alive)
+                        {
+                            e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
+                        }
+                    }
+
+                    if (e.alive)
+                    {
+                        numAliveEnemies++;
+                    }
+                }
+                if (numAliveEnemies <= 0)
+                {
+                    battling = false;
+                }
+            }
+            else
             {
                 playerTurn = true;
                 playerParty.ReplenishActionPoints();
@@ -96,7 +120,7 @@ public class BattleManager : MonoBehaviour
 
     private void Battle()
     {
-        
+
     }
 
 
