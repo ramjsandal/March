@@ -101,6 +101,11 @@ public class Party : MonoBehaviour
                 continue;
             }
 
+            if (!partyMembers[i].alive)
+            {
+                continue;
+            }
+
             partyMembers[i].Teleport(closestSquares[i]);
             partyMembers[i].gameObject.SetActive(true);
         }
