@@ -59,7 +59,7 @@ public class Player : Agent
                 _gridManager.TintTiles(coords, Color.red);
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    if (coords.Contains(_gridManager.MouseToGrid()))
+                    if (coords.Contains(_gridManager.MouseToGrid()) && _gridManager.MouseToGrid() != gridPos.Value)
                     {
                         StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
                         actionPoints--;
