@@ -128,6 +128,10 @@ public class BattleManager : MonoBehaviour
                     }
                 }
 
+                playerTurn = true;
+                playerParty.ReplenishActionPoints();
+                enemyPartyList[enemyBattling].ResetActionPoints();
+
             }
             else
             {
