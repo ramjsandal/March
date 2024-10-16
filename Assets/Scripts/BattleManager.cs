@@ -33,8 +33,9 @@ public class BattleManager : MonoBehaviour
             var currentPortrait = Instantiate(playerPortraitTemplate, new Vector3(defaultPos.x + (i * width), defaultPos.y, defaultPos.z), Quaternion.identity);
             currentPortrait.transform.SetParent(battleCanvas.transform);
             var portScript = currentPortrait.GetComponent<UIPortrait>();
-            portScript.text.text = playerParty.partyMembers[i].health.ToString();
+            portScript.healthText.text = playerParty.partyMembers[i].health.ToString();
             portScript.image.sprite = playerParty.partyMembers[i].portrait;
+            portScript.actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
             currentPortrait.enabled = true;
             playerPortraitList.Add(currentPortrait);
         }
@@ -44,7 +45,20 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < playerPortraitList.Count; i++)
         {
-            playerPortraitList[i].text.text = playerParty.partyMembers[i].health.ToString();
+            playerPortraitList[i].healthText.text = playerParty.partyMembers[i].health.ToString();
+        }
+    }
+
+    private void UpdateActionPoints(object sender, EventArgs e)
+    {
+        if (playerPortraitList == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < playerPortraitList.Count; i++)
+        {
+            playerPortraitList[i].actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
         }
     }
     private void Awake()
@@ -66,7 +80,18 @@ public class BattleManager : MonoBehaviour
             {
                 p.StoppedMoving += CheckBattleStart;
                 p.TookDamage += UpdatePortraits;
+                p.UsedActionPoint += UpdateActionPoints;
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Player p in playerParty.partyMembers)
+        {
+            p.StoppedMoving -= CheckBattleStart;
+            p.TookDamage -= UpdatePortraits;
+            p.UsedActionPoint -= UpdateActionPoints;
         }
     }
 

@@ -10,6 +10,7 @@ public class Player : Agent
     private List<Vector2Int> _attackableTiles = new List<Vector2Int>();
     protected void Start()
     {
+        actionPoints = 2;
         _gridManager = GridManager.Instance;
         gridPos = _gridManager.GetCellPosition(transform.position);
         _attackableTiles = new List<Vector2Int>();

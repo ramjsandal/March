@@ -79,6 +79,16 @@ public class Agent : MonoBehaviour
         set
         {
             _actionPoints = value;
+            OnUsedActionPoint(null);
+        }
+    }
+
+    public event EventHandler UsedActionPoint;
+    public void OnUsedActionPoint(EventArgs e)
+    {
+        if (UsedActionPoint != null)
+        {
+            UsedActionPoint(this, e);
         }
     }
 

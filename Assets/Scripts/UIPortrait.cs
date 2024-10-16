@@ -8,6 +8,7 @@ public class UIPortrait : MonoBehaviour
 {
 
     public Image image;
-    public TMP_Text text;
+    public TMP_Text healthText;
+    public TMP_Text actionPointsText;
 
 }
