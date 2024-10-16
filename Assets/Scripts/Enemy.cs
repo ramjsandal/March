@@ -39,6 +39,10 @@ public class Enemy : Agent
 
     public void MakeMove(List<Player> players)
     {
+        if (moving)
+        {
+            return;
+        }
 
         // hit closest player
         // check 4 surrounding squares
@@ -56,7 +60,8 @@ public class Enemy : Agent
         }
 
         // move to closest player
-        List<Vector2Int> sqauresInRange = _gridManager.IndicateMovable(gridPos.Value, moveRange).Select(a => a.position).ToList();
+        _paths = _gridManager.IndicateMovable(gridPos.Value, moveRange);
+        List<Vector2Int> sqauresInRange = _paths.Select(a => a.position).ToList();
         List<(Vector2Int, int)> closestSquares = new List<(Vector2Int, int)>();
         foreach (Player player in players)
         {
@@ -64,7 +69,8 @@ public class Enemy : Agent
             closestSquares.Add(posAndRange);
         }
         closestSquares.Sort((a, b) => a.Item2.CompareTo(b.Item2));
-        Teleport(closestSquares[0].Item1);
+        StartCoroutine(MoveAlongPath(PathToSquare(closestSquares[0].Item1)));
+        //Teleport(closestSquares[0].Item1);
         actionPoints--;
         return;
     }

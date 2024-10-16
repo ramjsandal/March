@@ -104,7 +104,7 @@ public class BattleManager : MonoBehaviour
         return -1;
     }
 
-    public void EndTurn()
+    public IEnumerator EndTurn()
     {
         if (battling)
         {
@@ -123,8 +123,14 @@ public class BattleManager : MonoBehaviour
                 {
                     while (e.alive && e.actionPoints > 0)
                     {
-
-                        e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
+                        if (!e.moving)
+                        {
+                            e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
+                        }
+                        while (e.moving)
+                        {
+                            yield return new WaitForSeconds(.25f);
+                        }
                     }
                 }
 
@@ -156,6 +162,13 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("SHOULD NEVER HAPPEN");
         }
+
+        yield return null;
+    }
+
+    public void EndTurnWrapper()
+    {
+        StartCoroutine(EndTurn());
     }
 
 }

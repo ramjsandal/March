@@ -4167,7 +4167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1781294085}
         m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
-        m_MethodName: EndTurn
+        m_MethodName: EndTurnWrapper
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
