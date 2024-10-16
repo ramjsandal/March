@@ -20,6 +20,24 @@ public class BattleManager : MonoBehaviour
     private int enemyBattling;
 
     public Canvas battleCanvas;
+    public UIPortrait playerPortraitTemplate;
+    private List<UIPortrait> playerPortraitList;
+
+    public void GeneratePlayerPortraits()
+    {
+        playerPortraitList = new List<UIPortrait>();
+        var defaultPos = playerPortraitTemplate.gameObject.transform.position;
+        var width = playerPortraitTemplate.GetComponent<RectTransform>().sizeDelta.x;
+        for (int i = 0; i < playerParty.partyMembers.Count; i++)
+        {
+            var currentPortrait = Instantiate(playerPortraitTemplate, new Vector3(defaultPos.x + (i * width), defaultPos.y, defaultPos.z), Quaternion.identity);
+            currentPortrait.transform.SetParent(battleCanvas.transform);
+            var portScript = currentPortrait.GetComponent<UIPortrait>();
+            portScript.text.text = playerParty.partyMembers[i].health.ToString();
+            currentPortrait.enabled = true;
+            playerPortraitList.Add(currentPortrait);
+        }
+    }
 
     private void Awake()
     {
@@ -57,6 +75,7 @@ public class BattleManager : MonoBehaviour
         battling = true;
         playerParty.battling = true;
         enemyPartyList[fightingGroup].battling = true;
+        GeneratePlayerPortraits();
         battleCanvas.enabled = true;
         Debug.Log("STARTED A BATTLE");
     }

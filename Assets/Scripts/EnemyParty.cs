@@ -47,10 +47,23 @@ public class EnemyParty : MonoBehaviour
 
     public void ResetActionPoints()
     {
-        foreach (var partyMember in partyMembers) { partyMember.ResetActionPoints(); }
+
+        foreach (var partyMember in partyMembers)
+        {
+            if (partyMember.alive)
+            {
+                partyMember.ResetActionPoints();
+            }
+        }
     }
     public void ReplenishActionPoints()
     {
-        foreach (var partyMember in partyMembers) { partyMember.ReplenishActionPoints(); }
+        foreach (var partyMember in partyMembers)
+        {
+            if (partyMember.alive)
+            {
+                partyMember.ReplenishActionPoints();
+            }
+        }
     }
 }

@@ -100,6 +100,8 @@ public class Agent : MonoBehaviour
         }
     }
 
+    public Sprite portrait;
+
     public int health = 10;
 
     public int moveRange = 4;
