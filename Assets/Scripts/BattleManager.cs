@@ -113,18 +113,17 @@ public class BattleManager : MonoBehaviour
             if (playerTurn)
             {
                 playerTurn = false;
+                GridManager.Instance.NoTint();
                 playerParty.ResetActionPoints();
                 enemyPartyList[enemyBattling].ReplenishActionPoints();
 
                 // do enemy turn
                 foreach (Enemy e in enemyPartyMembers)
                 {
-                    while (e.actionPoints > 0)
+                    while (e.alive && e.actionPoints > 0)
                     {
-                        if (e.alive)
-                        {
-                            e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
-                        }
+
+                        e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
                     }
                 }
 
@@ -147,7 +146,8 @@ public class BattleManager : MonoBehaviour
                 enemyBattling = -1;
                 playerParty.ReplenishActionPoints();
             }
-        } else
+        }
+        else
         {
             Debug.Log("SHOULD NEVER HAPPEN");
         }

@@ -3945,7 +3945,7 @@ MonoBehaviour:
   partyMembers:
   - {fileID: 1150384947}
   - {fileID: 476879767}
-  - {fileID: 1988904499}
+  - {fileID: 1988904502}
   - {fileID: 56303873}
 --- !u!1 &1988904498
 GameObject:
@@ -3957,7 +3957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1988904501}
   - component: {fileID: 1988904500}
-  - component: {fileID: 1988904499}
+  - component: {fileID: 1988904502}
   m_Layer: 0
   m_Name: Player (2)
   m_TagString: Untagged
@@ -3965,24 +3965,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1988904499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988904498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
-  health: 10
-  moveRange: 4
-  alive: 1
-  attackRange: 1
-  attackDamage: 10
 --- !u!212 &1988904500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4050,6 +4032,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1918078090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1988904502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988904498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ebc38cbfea9c8645af5cdceb24c3186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+  health: 10
+  moveRange: 4
+  alive: 1
+  attackRange: 1
+  attackDamage: 10
 --- !u!1 &2046095887
 GameObject:
   m_ObjectHideFlags: 0
