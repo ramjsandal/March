@@ -61,6 +61,7 @@ public class Agent : MonoBehaviour
             _moving = value;
             if (_moving == false)
             {
+                Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
                 OnStoppedMoving(null);
             }
 

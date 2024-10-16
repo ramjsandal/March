@@ -94,7 +94,7 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < enemyPartyList.Count; i++)
         {
-            if (enemyPartyList[i].aggroSquares.Intersect(playerSquares).Any())
+            if (enemyPartyList[i].GetAggroSquares().Intersect(playerSquares).Any())
             {
                 return i;
             }
@@ -107,16 +107,17 @@ public class BattleManager : MonoBehaviour
     {
         if (battling)
         {
+
+            var enemyParty = enemyPartyList[enemyBattling];
+            var enemyPartyMembers = enemyParty.partyMembers;
             if (playerTurn)
             {
                 playerTurn = false;
                 playerParty.ResetActionPoints();
                 enemyPartyList[enemyBattling].ReplenishActionPoints();
-                var enemyParty = enemyPartyList[enemyBattling].partyMembers;
 
                 // do enemy turn
-                int numAliveEnemies = 0;
-                foreach (Enemy e in enemyParty)
+                foreach (Enemy e in enemyPartyMembers)
                 {
                     while (e.actionPoints > 0)
                     {
@@ -125,16 +126,8 @@ public class BattleManager : MonoBehaviour
                             e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
                         }
                     }
+                }
 
-                    if (e.alive)
-                    {
-                        numAliveEnemies++;
-                    }
-                }
-                if (numAliveEnemies <= 0)
-                {
-                    battling = false;
-                }
             }
             else
             {
@@ -142,13 +135,23 @@ public class BattleManager : MonoBehaviour
                 playerParty.ReplenishActionPoints();
                 enemyPartyList[enemyBattling].ResetActionPoints();
             }
+
+            // CHECK IF BATTLE OVER
+            if (enemyParty.NumAliveMembers() <= 0)
+            {
+                battling = false;
+            }
+        }
+        else
+        {
+            enemyPartyList[enemyBattling].battling = false;
+            enemyPartyList[enemyBattling].alive = false;
+            playerParty.battling = false;
+            battleCanvas.enabled = false;
+            enemyBattling = -1;
+            playerParty.ReplenishActionPoints();
+            Debug.Log("ENDED BATTLE");
         }
     }
-
-    private void Battle()
-    {
-
-    }
-
 
 }

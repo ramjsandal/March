@@ -25,6 +25,7 @@ public class Player : Agent
         // NOT IN BATTLE
         if (selected && !battling)
         {
+            _selectedAction = SelectedAction.MOVING;
             if (_selectedAction == SelectedAction.MOVING)
             {
                 List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);

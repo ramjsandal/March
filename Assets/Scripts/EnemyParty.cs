@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class EnemyParty : MonoBehaviour
 {
+    public bool alive = true;
     public List<Enemy> partyMembers = new List<Enemy>();
-    public List<Vector2Int> aggroSquares = new List<Vector2Int>();
+    private List<Vector2Int> aggroSquares = new List<Vector2Int>();
 
     private bool _battling;
     public bool battling
@@ -32,9 +33,11 @@ public class EnemyParty : MonoBehaviour
             enemy.Initialize();
         }
 
-        GetAggroSquares();
+        alive = true;
+        GenerateAggroSquares();
     }
-    private void GetAggroSquares()
+
+    private void GenerateAggroSquares()
     {
         List<Vector2Int> aggro = new List<Vector2Int>();
         foreach (Enemy enemy in partyMembers)
@@ -42,6 +45,14 @@ public class EnemyParty : MonoBehaviour
             aggro.AddRange(enemy.GetAggroSquares());
         }
         aggroSquares = aggro;
+    }
+    public List<Vector2Int> GetAggroSquares()
+    {
+        if (alive)
+        {
+            return aggroSquares;
+        }
+        return new List<Vector2Int>();
     }
 
 
@@ -65,5 +76,15 @@ public class EnemyParty : MonoBehaviour
                 partyMember.ReplenishActionPoints();
             }
         }
+    }
+
+    public int NumAliveMembers()
+    {
+        int retVal = 0;
+        foreach (var partyMember in partyMembers)
+        {
+            if (partyMember.alive) retVal++;
+        }
+        return retVal;
     }
 }
