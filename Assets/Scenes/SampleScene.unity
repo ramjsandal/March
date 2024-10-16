@@ -156,8 +156,8 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
-  meleeRange: 1
-  meleeDamage: 10
+  attackRange: 1
+  attackDamage: 10
 --- !u!212 &56303874
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -430,7 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476879766}
   - component: {fileID: 476879765}
-  - component: {fileID: 476879764}
+  - component: {fileID: 476879767}
   m_Layer: 0
   m_Name: Player (1)
   m_TagString: Untagged
@@ -438,24 +438,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &476879764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476879763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
-  health: 10
-  moveRange: 4
-  alive: 1
-  meleeRange: 1
-  meleeDamage: 10
 --- !u!212 &476879765
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -523,6 +505,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1918078090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &476879767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476879763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8810063743d8b4291c43208a2e0bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portrait: {fileID: 0}
+  health: 10
+  moveRange: 4
+  alive: 1
+  attackRange: 1
+  attackDamage: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3198,8 +3198,8 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
-  meleeRange: 1
-  meleeDamage: 10
+  attackRange: 1
+  attackDamage: 10
 --- !u!212 &1150384948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3944,7 +3944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partyMembers:
   - {fileID: 1150384947}
-  - {fileID: 476879764}
+  - {fileID: 476879767}
   - {fileID: 1988904499}
   - {fileID: 56303873}
 --- !u!1 &1988904498
@@ -3981,8 +3981,8 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
-  meleeRange: 1
-  meleeDamage: 10
+  attackRange: 1
+  attackDamage: 10
 --- !u!212 &1988904500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4280,10 +4280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91afb7162ca2cdf4c867b653f919ccd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alive: 1
   partyMembers:
   - {fileID: 732896777}
   - {fileID: 744181974}
-  aggroSquares: []
 --- !u!4 &2131998599
 Transform:
   m_ObjectHideFlags: 0

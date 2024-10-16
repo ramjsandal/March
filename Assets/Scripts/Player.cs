@@ -5,14 +5,14 @@ using static GridManager;
 
 public class Player : Agent
 {
-    public int meleeRange = 1;
-    public int meleeDamage = 10;
-    private List<Vector2Int> _meleeTiles = new List<Vector2Int>();
-    private void Start()
+    public int attackRange = 1;
+    public int attackDamage = 10;
+    private List<Vector2Int> _attackableTiles = new List<Vector2Int>();
+    protected void Start()
     {
         _gridManager = GridManager.Instance;
         gridPos = _gridManager.GetCellPosition(transform.position);
-        _meleeTiles = new List<Vector2Int>();
+        _attackableTiles = new List<Vector2Int>();
         moving = false;
     }
     public void Update()
@@ -67,15 +67,15 @@ public class Player : Agent
             }
             else if (_selectedAction == SelectedAction.ATTACKING)
             {
-                List<NodeInfo> meleeTiles = _gridManager.IndicateMeleeable(gridPos.Value, meleeRange);
-                List<Vector2Int> coords = meleeTiles.Select(a => a.position).ToList();
-                _meleeTiles = coords;
+                List<NodeInfo> attackableTiles = IndicateAttackable();
+                List<Vector2Int> coords = attackableTiles.Select(a => a.position).ToList();
+                _attackableTiles = coords;
                 _gridManager.TintTiles(coords, Color.red);
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
                     if (coords.Contains(_gridManager.MouseToGrid()))
                     {
-                        MeleeAttack();
+                        Attack();
                         actionPoints--;
                     }
                 }
@@ -88,15 +88,20 @@ public class Player : Agent
         }
     }
 
-    public void MeleeAttack()
+    protected virtual List<NodeInfo> IndicateAttackable()
+    {
+        return _gridManager.IndicateMeleeable(gridPos.Value, attackRange);
+    }
+
+    protected virtual void Attack()
     {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
         if (hit.collider != null)
         {
             Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
-            if (enemy != null && _meleeTiles.Contains(enemy.gridPos.Value))
+            if (enemy != null && _attackableTiles.Contains(enemy.gridPos.Value))
             {
-                enemy.TakeDamage(meleeDamage);
+                enemy.TakeDamage(attackDamage);
             }
         }
     }

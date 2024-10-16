@@ -140,17 +140,16 @@ public class BattleManager : MonoBehaviour
             if (enemyParty.NumAliveMembers() <= 0)
             {
                 battling = false;
+                enemyPartyList[enemyBattling].battling = false;
+                enemyPartyList[enemyBattling].alive = false;
+                playerParty.battling = false;
+                battleCanvas.enabled = false;
+                enemyBattling = -1;
+                playerParty.ReplenishActionPoints();
             }
-        }
-        else
+        } else
         {
-            enemyPartyList[enemyBattling].battling = false;
-            enemyPartyList[enemyBattling].alive = false;
-            playerParty.battling = false;
-            battleCanvas.enabled = false;
-            enemyBattling = -1;
-            playerParty.ReplenishActionPoints();
-            Debug.Log("ENDED BATTLE");
+            Debug.Log("SHOULD NEVER HAPPEN");
         }
     }
 
