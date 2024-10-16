@@ -34,6 +34,7 @@ public class BattleManager : MonoBehaviour
             currentPortrait.transform.SetParent(battleCanvas.transform);
             var portScript = currentPortrait.GetComponent<UIPortrait>();
             portScript.text.text = playerParty.partyMembers[i].health.ToString();
+            portScript.image.sprite = playerParty.partyMembers[i].portrait;
             currentPortrait.enabled = true;
             playerPortraitList.Add(currentPortrait);
         }

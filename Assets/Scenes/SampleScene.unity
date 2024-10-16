@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
+  portrait: {fileID: 21300000, guid: 252e780c391ff6f418ca4bd9d2f77846, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d8810063743d8b4291c43208a2e0bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
+  portrait: {fileID: 21300000, guid: d9d8f60902cd2b344bb94cd352153c8b, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -615,57 +615,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &553698145
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 553698147}
-  - component: {fileID: 553698146}
-  m_Layer: 5
-  m_Name: PortraitHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &553698146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553698145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df733c86f84446c46ace774b9a4e6c61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 1029503647}
-  text: {fileID: 1688436414}
---- !u!224 &553698147
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553698145}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1029503645}
-  m_Father: {fileID: 1492405253}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -960, y: -540}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &732896776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3099,6 +3048,7 @@ GameObject:
   - component: {fileID: 1029503645}
   - component: {fileID: 1029503646}
   - component: {fileID: 1029503647}
+  - component: {fileID: 1029503648}
   m_Layer: 5
   m_Name: Portrait
   m_TagString: Untagged
@@ -3119,12 +3069,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1688436416}
-  m_Father: {fileID: 553698147}
+  m_Father: {fileID: 1492405253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1029503646
 CanvasRenderer:
@@ -3164,6 +3114,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1029503648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029503644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df733c86f84446c46ace774b9a4e6c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1029503647}
+  text: {fileID: 1688436414}
 --- !u!1 &1150384946
 GameObject:
   m_ObjectHideFlags: 0
@@ -3194,7 +3158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
+  portrait: {fileID: 21300000, guid: f1afd2822dc3562489e2145af09276ba, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -3362,7 +3326,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2096297133}
-  - {fileID: 553698147}
+  - {fileID: 1029503645}
   m_Father: {fileID: 1781294086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3778,8 +3742,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3877,7 +3841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleCanvas: {fileID: 1492405252}
-  playerPortraitTemplate: {fileID: 553698146}
+  playerPortraitTemplate: {fileID: 1029503648}
 --- !u!4 &1781294086
 Transform:
   m_ObjectHideFlags: 0
@@ -4044,7 +4008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebc38cbfea9c8645af5cdceb24c3186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 0}
+  portrait: {fileID: 21300000, guid: 1b959c43736c29a4ba23c2c257969c6b, type: 3}
   health: 10
   moveRange: 4
   alive: 1
