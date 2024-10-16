@@ -210,9 +210,21 @@ public class Agent : MonoBehaviour
         actionPoints = 0;
     }
 
+
+    public event EventHandler TookDamage;
+
+    public void OnTookDamage(EventArgs e)
+    {
+        if (TookDamage != null)
+        {
+            TookDamage(this, e);
+        }
+    }
+
     public void TakeDamage(int dmg)
     {
         health -= dmg;
+        OnTookDamage(null);
         if (health <= 0)
         {
             gridPos = null;

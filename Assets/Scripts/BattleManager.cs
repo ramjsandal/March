@@ -39,6 +39,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private void UpdatePortraits(object sender, EventArgs e)
+    {
+        for (int i = 0; i < playerPortraitList.Count; i++)
+        {
+            playerPortraitList[i].text.text = playerParty.partyMembers[i].health.ToString();
+        }
+    }
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -57,6 +64,7 @@ public class BattleManager : MonoBehaviour
             foreach (Player p in playerParty.partyMembers)
             {
                 p.StoppedMoving += CheckBattleStart;
+                p.TookDamage += UpdatePortraits;
             }
         }
     }
