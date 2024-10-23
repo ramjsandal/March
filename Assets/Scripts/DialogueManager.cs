@@ -30,7 +30,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         sentences = new Queue<string>();
-        dialogueCanvas.enabled = false;
+        dialogueCanvas.gameObject.SetActive(false);
         inDialogue = false;
     }
 
@@ -43,7 +43,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         inDialogue = true;
-        dialogueCanvas.enabled = true;
+        dialogueCanvas.gameObject.SetActive(true);
         sentences.Clear();
         speakerName.text = dl.name;
         foreach (string sentence in dl.sentences)
@@ -82,7 +82,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        dialogueCanvas.enabled = false;
+        dialogueCanvas.gameObject.SetActive(false);
         inDialogue = false;
     }
 
