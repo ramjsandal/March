@@ -161,4 +161,10 @@ public class Party : MonoBehaviour
     {
         foreach (var partyMember in partyMembers) { partyMember.ReplenishActionPoints(); }
     }
+
+    // gets the currently selected player's grid position 
+    public Vector2Int GetSelectedPlayerPosition()
+    {
+        return partyMembers[SelectedMemberIdx].gridPos.Value;
+    }
 }
