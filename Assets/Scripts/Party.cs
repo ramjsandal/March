@@ -123,6 +123,11 @@ public class Party : MonoBehaviour
         }
     }
 
+    public void SelectPartyMember(int index)
+    {
+        SelectedMemberIdx = index;
+    }
+
     private int CheckPartySelection()
     {
         int retVal = -1;

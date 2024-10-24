@@ -969,11 +969,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -9.488153, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1150384949}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618733977
 GameObject:
@@ -8439,6 +8439,7 @@ GameObject:
   - component: {fileID: 1029503646}
   - component: {fileID: 1029503647}
   - component: {fileID: 1029503648}
+  - component: {fileID: 1029503649}
   m_Layer: 5
   m_Name: Portrait
   m_TagString: Untagged
@@ -8520,6 +8521,36 @@ MonoBehaviour:
   image: {fileID: 1029503647}
   healthText: {fileID: 1688436414}
   actionPointsText: {fileID: 1625173916}
+  playerIndex: 0
+--- !u!114 &1029503649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029503644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1029503648}
+          m_TargetAssemblyTypeName: UIPortrait, Assembly-CSharp
+          m_MethodName: SelectPartyMemberInUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1150384946
 GameObject:
   m_ObjectHideFlags: 0
@@ -8620,8 +8651,7 @@ Transform:
   m_LocalPosition: {x: -6.6881537, y: 0.89711833, z: -0.009416328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 519420032}
+  m_Children: []
   m_Father: {fileID: 1918078090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400410330
@@ -8776,7 +8806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1492405250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10285,10 +10315,13 @@ MonoBehaviour:
     sentences:
     - hey im carl
     - im still carl baby
+  triggerDistance: 1
+  playerParty: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 519420032}
   - {fileID: 151017602}
   - {fileID: 2131998599}
   - {fileID: 1918078090}

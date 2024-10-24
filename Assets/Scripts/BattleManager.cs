@@ -36,6 +36,7 @@ public class BattleManager : MonoBehaviour
             portScript.healthText.text = playerParty.partyMembers[i].health.ToString();
             portScript.image.sprite = playerParty.partyMembers[i].portrait;
             portScript.actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
+            portScript.playerIndex = i;
             currentPortrait.gameObject.SetActive(true);
             playerPortraitList.Add(currentPortrait);
         }
@@ -194,6 +195,11 @@ public class BattleManager : MonoBehaviour
     public void EndTurnWrapper()
     {
         StartCoroutine(EndTurn());
+    }
+
+    public void SelectPartyMember(int index)
+    {
+        playerParty.SelectPartyMember(index);
     }
 
 }
