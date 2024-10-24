@@ -36,7 +36,7 @@ public class BattleManager : MonoBehaviour
             portScript.healthText.text = playerParty.partyMembers[i].health.ToString();
             portScript.image.sprite = playerParty.partyMembers[i].portrait;
             portScript.actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
-            currentPortrait.enabled = true;
+            currentPortrait.gameObject.SetActive(true);
             playerPortraitList.Add(currentPortrait);
         }
     }
@@ -71,7 +71,7 @@ public class BattleManager : MonoBehaviour
         {
             _instance = this;
             battling = false;
-            battleCanvas.enabled = false;
+            battleCanvas.gameObject.SetActive(false);
             playerTurn = true;
             playerParty = GameObject.FindObjectOfType<Party>();
             enemyPartyList = new List<EnemyParty>();
@@ -109,8 +109,8 @@ public class BattleManager : MonoBehaviour
         battling = true;
         playerParty.battling = true;
         enemyPartyList[fightingGroup].battling = true;
+        battleCanvas.gameObject.SetActive(true);
         GeneratePlayerPortraits();
-        battleCanvas.enabled = true;
         Debug.Log("STARTED A BATTLE");
     }
 
@@ -178,7 +178,7 @@ public class BattleManager : MonoBehaviour
                 enemyPartyList[enemyBattling].battling = false;
                 enemyPartyList[enemyBattling].alive = false;
                 playerParty.battling = false;
-                battleCanvas.enabled = false;
+                battleCanvas.gameObject.SetActive( false);
                 enemyBattling = -1;
                 playerParty.ReplenishActionPoints();
             }
