@@ -74,7 +74,7 @@ public class Player : Agent
                 _gridManager.TintTiles(coords, Color.red);
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    if (coords.Contains(_gridManager.MouseToGrid()))
+                    if (coords.Contains(_gridManager.MouseToGrid()) && EnemyAtMouse())
                     {
                         Attack();
                         actionPoints--;
@@ -105,6 +105,21 @@ public class Player : Agent
                 enemy.TakeDamage(attackDamage);
             }
         }
+    }
+
+    private bool EnemyAtMouse()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        if (hit.collider != null)
+        {
+            Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

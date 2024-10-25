@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Agent;
 
 public class Party : MonoBehaviour
 {
@@ -119,7 +120,7 @@ public class Party : MonoBehaviour
 
         if (index != -1)
         {
-            SelectedMemberIdx = index;
+            SelectPartyMember(index);
         }
     }
 
@@ -171,5 +172,10 @@ public class Party : MonoBehaviour
     public Vector2Int GetSelectedPlayerPosition()
     {
         return partyMembers[SelectedMemberIdx].gridPos.Value;
+    }
+
+    public void SetSelectedPartyMemberMode(SelectedAction action)
+    {
+        partyMembers[SelectedMemberIdx].SetSelectedAction(action);
     }
 }

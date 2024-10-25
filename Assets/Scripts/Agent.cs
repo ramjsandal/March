@@ -129,7 +129,7 @@ public class Agent : MonoBehaviour
         }
     }
 
-    protected enum SelectedAction
+    public enum SelectedAction
     {
         MOVING,
         ATTACKING
@@ -210,6 +210,16 @@ public class Agent : MonoBehaviour
         {
             _selectedAction = SelectedAction.MOVING;
         }
+    }
+
+    public void SetSelectedAction(SelectedAction action)
+    {
+        _selectedAction = action;
+    }
+
+    public SelectedAction GetSelectedAction()
+    {
+        return _selectedAction;
     }
 
     public void ReplenishActionPoints()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static Agent;
 
 public class BattleManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class BattleManager : MonoBehaviour
     public Canvas battleCanvas;
     public UIPortrait playerPortraitTemplate;
     private List<UIPortrait> playerPortraitList;
+    public Image moveButton;
+    public Image attackButton;
 
     public void GeneratePlayerPortraits()
     {
@@ -113,6 +116,7 @@ public class BattleManager : MonoBehaviour
         enemyPartyList[fightingGroup].battling = true;
         battleCanvas.gameObject.SetActive(true);
         GeneratePlayerPortraits();
+        HighlightAction();
         Debug.Log("STARTED A BATTLE");
     }
 
@@ -202,6 +206,22 @@ public class BattleManager : MonoBehaviour
     {
         MoveSelectedPortrait(index);
         playerParty.SelectPartyMember(index);
+        HighlightAction();
+    }
+
+    private void HighlightAction()
+    {
+        if (playerParty.partyMembers[playerParty.SelectedMemberIdx].GetSelectedAction() == SelectedAction.MOVING)
+        {
+            moveButton.color = Color.red;
+            attackButton.color = Color.white;
+        }
+        else
+        {
+            moveButton.color = Color.white;
+            attackButton.color = Color.red;
+        }
+
     }
 
     private void MoveSelectedPortrait(int selectedPartyMemberIdx)
@@ -215,6 +235,13 @@ public class BattleManager : MonoBehaviour
 
         nextSelectedPortrait.transform.position = selectedPos;
         currentlySelectedPortrait.transform.position = nextPos;
+    }
+
+    // called in UI
+    public void SetSelectedPlayerAction(int action)
+    {
+        playerParty.SetSelectedPartyMemberMode((SelectedAction)action);
+        HighlightAction();
     }
 
 }
