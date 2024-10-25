@@ -42,6 +42,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
     private void UpdatePortraits(object sender, EventArgs e)
     {
         for (int i = 0; i < playerPortraitList.Count; i++)
@@ -179,7 +180,7 @@ public class BattleManager : MonoBehaviour
                 enemyPartyList[enemyBattling].battling = false;
                 enemyPartyList[enemyBattling].alive = false;
                 playerParty.battling = false;
-                battleCanvas.gameObject.SetActive( false);
+                battleCanvas.gameObject.SetActive(false);
                 enemyBattling = -1;
                 playerParty.ReplenishActionPoints();
             }
@@ -199,7 +200,21 @@ public class BattleManager : MonoBehaviour
 
     public void SelectPartyMember(int index)
     {
+        MoveSelectedPortrait(index);
         playerParty.SelectPartyMember(index);
+    }
+
+    private void MoveSelectedPortrait(int selectedPartyMemberIdx)
+    {
+        int currentlySelectedIdx = playerParty.SelectedMemberIdx;
+        GameObject currentlySelectedPortrait = playerPortraitList[currentlySelectedIdx].gameObject;
+        Vector3 selectedPos = currentlySelectedPortrait.transform.position;
+
+        GameObject nextSelectedPortrait = playerPortraitList[selectedPartyMemberIdx].gameObject;
+        Vector3 nextPos = nextSelectedPortrait.transform.position;
+
+        nextSelectedPortrait.transform.position = selectedPos;
+        currentlySelectedPortrait.transform.position = nextPos;
     }
 
 }
