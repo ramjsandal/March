@@ -46,7 +46,7 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    private void UpdatePortraits(object sender, EventArgs e)
+    private void UpdateHealth(object sender, EventArgs e)
     {
         for (int i = 0; i < playerPortraitList.Count; i++)
         {
@@ -84,8 +84,9 @@ public class BattleManager : MonoBehaviour
             foreach (Player p in playerParty.partyMembers)
             {
                 p.StoppedMoving += CheckBattleStart;
-                p.TookDamage += UpdatePortraits;
+                p.TookDamage += UpdateHealth;
                 p.UsedActionPoint += UpdateActionPoints;
+                p.AgentSelected += UpdateSelectedAction;
             }
         }
     }
@@ -95,8 +96,9 @@ public class BattleManager : MonoBehaviour
         foreach (Player p in playerParty.partyMembers)
         {
             p.StoppedMoving -= CheckBattleStart;
-            p.TookDamage -= UpdatePortraits;
+            p.TookDamage -= UpdateHealth;
             p.UsedActionPoint -= UpdateActionPoints;
+            p.AgentSelected -= UpdateSelectedAction;
         }
     }
 
@@ -206,6 +208,10 @@ public class BattleManager : MonoBehaviour
     {
         MoveSelectedPortrait(index);
         playerParty.SelectPartyMember(index);
+    }
+
+    private void UpdateSelectedAction(object sender, EventArgs e)
+    {
         HighlightAction();
     }
 

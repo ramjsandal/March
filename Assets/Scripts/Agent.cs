@@ -42,9 +42,18 @@ public class Agent : MonoBehaviour
             _selected = value;
             if (selected)
             {
-                //Camera.main.transform.parent = transform;
                 Camera.main.transform.position = transform.position + new Vector3(0, 0, -5);
+                OnAgentSelected(null);
             }
+        }
+    }
+
+    public event EventHandler AgentSelected;
+    public void OnAgentSelected(EventArgs e)
+    {
+        if (AgentSelected != null)
+        {
+            AgentSelected(this, e);
         }
     }
 
