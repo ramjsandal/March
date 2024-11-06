@@ -44,3 +44,6 @@ TagManager:
   - name: Obstacles
     uniqueID: 261402257
     locked: 0
+  - name: Entities
+    uniqueID: 1980970155
+    locked: 0
