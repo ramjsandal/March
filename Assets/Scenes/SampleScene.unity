@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 21300000, guid: 252e780c391ff6f418ca4bd9d2f77846, type: 3}
+  portrait: {fileID: 21300000, guid: 5ecae8dc9899c69408dcbba9dd1323ae, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d8810063743d8b4291c43208a2e0bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 21300000, guid: d9d8f60902cd2b344bb94cd352153c8b, type: 3}
+  portrait: {fileID: 21300000, guid: 852fdf1a5a19d5f40a64d86321082083, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -8984,7 +8984,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1029503645
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9119,7 +9119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41e337abd662274caad70d4e68a8daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 21300000, guid: f1afd2822dc3562489e2145af09276ba, type: 3}
+  portrait: {fileID: 21300000, guid: 5d7ef4f31aa2a6b4ca4bd5ff3b2183e0, type: 3}
   health: 10
   moveRange: 4
   alive: 1
@@ -10241,7 +10241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebc38cbfea9c8645af5cdceb24c3186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portrait: {fileID: 21300000, guid: 1b959c43736c29a4ba23c2c257969c6b, type: 3}
+  portrait: {fileID: 21300000, guid: 9d8296faf94023e418d7101d824f6ccb, type: 3}
   health: 10
   moveRange: 4
   alive: 1
