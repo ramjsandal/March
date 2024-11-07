@@ -19,10 +19,6 @@ public class EnemyParty : MonoBehaviour
         set
         {
             _battling = value;
-            foreach (Enemy e in partyMembers)
-            {
-                e.battling = _battling;
-            }
         }
     }
 

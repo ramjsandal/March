@@ -19,10 +19,6 @@ public class Party : MonoBehaviour
         set
         {
             _battling = value;
-            foreach (Player p in partyMembers)
-            {
-                p.battling = _battling;
-            }
         }
     }
 

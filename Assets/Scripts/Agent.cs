@@ -101,25 +101,6 @@ public class Agent : MonoBehaviour
         }
     }
 
-    private bool _battling;
-    public bool battling
-    {
-        get
-        {
-            return _battling;
-        }
-
-        set
-        {
-            _battling = value;
-
-            if (_battling == true)
-            {
-                actionPoints = 2;
-            }
-        }
-    }
-
     public Sprite portrait;
 
     public int health = 10;
