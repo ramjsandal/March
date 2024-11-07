@@ -16,75 +16,53 @@ public class Player : Agent
         _attackableTiles = new List<Vector2Int>();
         moving = false;
     }
-    public void Update()
+    public void BattleActions()
     {
-        if (moving)
+        // if we have no action points, we cant do anything
+        if (actionPoints <= 0)
         {
+            _gridManager.NoTint();
             return;
         }
-
-        // NOT IN BATTLE
-        if (selected && !battling)
+        else if (_selectedAction == SelectedAction.MOVING)
         {
-            _selectedAction = SelectedAction.MOVING;
-            if (_selectedAction == SelectedAction.MOVING)
+            MoveAction(true);
+        }
+        else if (_selectedAction == SelectedAction.ATTACKING)
+        {
+            AttackAction();
+        }
+    }
+
+    public void AttackAction()
+    {
+        List<NodeInfo> attackableTiles = IndicateAttackable();
+        List<Vector2Int> coords = attackableTiles.Select(a => a.position).ToList();
+        _attackableTiles = coords;
+        _gridManager.TintTiles(coords, Color.red);
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (coords.Contains(_gridManager.MouseToGrid()) && EnemyAtMouse())
             {
-                List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);
-                _paths = travTiles;
-                List<Vector2Int> coords = travTiles.Select(a => a.position).ToList();
-                _gridManager.TintTiles(coords, Color.red);
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
-                }
+                Attack();
+                actionPoints--;
             }
-            return;
         }
 
-        // IN BATTLE
-        if (selected && battling)
+    }
+
+    public void MoveAction(bool useActionPoint)
+    {
+        List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);
+        _paths = travTiles;
+        List<Vector2Int> coords = travTiles.Select(a => a.position).ToList();
+        _gridManager.TintTiles(coords, Color.red);
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            // if we have no action points, we cant do anything
-            if (actionPoints <= 0)
+            StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
+            if (useActionPoint)
             {
-                _gridManager.NoTint();
-                return;
-            }
-
-            if (_selectedAction == SelectedAction.MOVING)
-            {
-                List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);
-                _paths = travTiles;
-                List<Vector2Int> coords = travTiles.Select(a => a.position).ToList();
-                _gridManager.TintTiles(coords, Color.red);
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    if (coords.Contains(_gridManager.MouseToGrid()) && _gridManager.MouseToGrid() != gridPos.Value)
-                    {
-                        StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
-                        actionPoints--;
-                    }
-                }
-            }
-            else if (_selectedAction == SelectedAction.ATTACKING)
-            {
-                List<NodeInfo> attackableTiles = IndicateAttackable();
-                List<Vector2Int> coords = attackableTiles.Select(a => a.position).ToList();
-                _attackableTiles = coords;
-                _gridManager.TintTiles(coords, Color.red);
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    if (coords.Contains(_gridManager.MouseToGrid()) && EnemyAtMouse())
-                    {
-                        Attack();
-                        actionPoints--;
-                    }
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ChangeSelectedAction();
+                actionPoints--;
             }
         }
     }

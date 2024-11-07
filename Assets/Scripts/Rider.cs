@@ -11,11 +11,6 @@ public class Rider : Player
         moveRange = 6;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        base.Update();
-    }
     protected override void Attack()
     {
         base.Attack();

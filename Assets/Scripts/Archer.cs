@@ -12,13 +12,6 @@ public class Archer : Player
         this.attackRange = 3;
         this.attackDamage = 4;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        base.Update();    
-    }
-
     protected override void Attack()
     {
         base.Attack();

@@ -16,21 +16,6 @@ public class Enemy : Agent
         GetAggroSquares();
     }
 
-    public void Update()
-    {
-        if (!battling)
-        {
-            return;
-        }
-
-        if (actionPoints <= 0)
-        {
-            return;
-        }
-
-
-    }
-
     public List<Vector2Int> GetAggroSquares()
     {
         aggroSquares = _gridManager.IndicateVisible(gridPos.Value, aggroRange).Select(a => a.position).ToList();

@@ -55,13 +55,22 @@ public class Party : MonoBehaviour
     public void Update()
     {
 
+        // if its moving, we cannot put in any inputs
+        if (partyMembers[SelectedMemberIdx].moving)
+        {
+            return;
+        }
+
+        // give the player the option to swap party members
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             SelectPartyMember();
         }
 
+
         if (!battling)
         {
+            // collapse / uncollapse party
             if (Input.GetKeyDown(KeyCode.P))
             {
                 if (collapsed)
@@ -72,8 +81,14 @@ public class Party : MonoBehaviour
                 {
                     CollapseParty();
                 }
-
             }
+
+            // move
+            partyMembers[SelectedMemberIdx].MoveAction(false);
+        }
+        else if (battling)
+        {
+            partyMembers[SelectedMemberIdx].BattleActions();
         }
     }
 
