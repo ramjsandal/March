@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Agent;
@@ -29,18 +30,6 @@ public class Party : MonoBehaviour
         set
         {
             _selectedMemberIdx = value;
-
-            for (int i = 0; i < partyMembers.Count; i++)
-            {
-                if (i == _selectedMemberIdx)
-                {
-                    partyMembers[i].selected = true;
-                }
-                else
-                {
-                    partyMembers[i].selected = false;
-                }
-            }
         }
     }
     void Start()
@@ -127,7 +116,15 @@ public class Party : MonoBehaviour
 
     private void SelectPartyMember()
     {
-        int index = CheckPartySelection();
+        int index = -1;
+
+        for (int i = 0; i < partyMembers.Count; i++)
+        {
+            if (partyMembers[i].MouseOnAgent())
+            {
+                index = i; break;
+            }
+        }
 
         if (index != -1)
         {
@@ -138,21 +135,23 @@ public class Party : MonoBehaviour
     public void SelectPartyMember(int index)
     {
         SelectedMemberIdx = index;
+        IndexEventArgs args = new IndexEventArgs();
+        args.Index = index;
+        OnSelectedPartyMember(args);
+        Camera.main.transform.position = partyMembers[SelectedMemberIdx].transform.position + new Vector3(0, 0, -1);
     }
 
-    private int CheckPartySelection()
+    public event EventHandler<IndexEventArgs> SelectedPartyMember;
+    public void OnSelectedPartyMember(IndexEventArgs e)
     {
-        int retVal = -1;
-
-        for (int i = 0; i < partyMembers.Count; i++)
+        if (SelectedPartyMember != null)
         {
-            if (partyMembers[i].MouseOnAgent())
-            {
-                retVal = i; break;
-            }
+            SelectedPartyMember(this, e);
         }
-
-        return retVal;
+    }
+    public class IndexEventArgs : EventArgs
+    {
+        public int Index { get; set; }
     }
 
     public List<Vector2Int> GetPartyPositions()

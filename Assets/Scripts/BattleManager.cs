@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static Agent;
+using static Party;
 
 public class BattleManager : MonoBehaviour
 {
@@ -81,12 +82,12 @@ public class BattleManager : MonoBehaviour
             playerParty = GameObject.FindObjectOfType<Party>();
             enemyPartyList = new List<EnemyParty>();
             enemyPartyList.AddRange(GameObject.FindObjectsOfType<EnemyParty>());
+            playerParty.SelectedPartyMember += UpdateSelectedPlayer; 
             foreach (Player p in playerParty.partyMembers)
             {
                 p.StoppedMoving += CheckBattleStart;
                 p.TookDamage += UpdateHealth;
                 p.UsedActionPoint += UpdateActionPoints;
-                p.AgentSelected += UpdateSelectedAction;
             }
         }
     }
@@ -98,7 +99,6 @@ public class BattleManager : MonoBehaviour
             p.StoppedMoving -= CheckBattleStart;
             p.TookDamage -= UpdateHealth;
             p.UsedActionPoint -= UpdateActionPoints;
-            p.AgentSelected -= UpdateSelectedAction;
         }
     }
 
@@ -118,6 +118,7 @@ public class BattleManager : MonoBehaviour
         enemyPartyList[fightingGroup].battling = true;
         battleCanvas.gameObject.SetActive(true);
         GeneratePlayerPortraits();
+        MoveSelectedPortrait(playerParty.SelectedMemberIdx);
         HighlightAction();
         Debug.Log("STARTED A BATTLE");
     }
@@ -204,14 +205,20 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EndTurn());
     }
 
+    private int prevSelectedIndex = 0;
     public void SelectPartyMember(int index)
     {
-        MoveSelectedPortrait(index);
+        prevSelectedIndex = playerParty.SelectedMemberIdx;
         playerParty.SelectPartyMember(index);
     }
 
-    private void UpdateSelectedAction(object sender, EventArgs e)
+    private void UpdateSelectedPlayer(object sender, IndexEventArgs e)
     {
+        if (!battling)
+        {
+            return;
+        }
+        MoveSelectedPortrait(e.Index);
         HighlightAction();
     }
 
@@ -232,14 +239,13 @@ public class BattleManager : MonoBehaviour
 
     private void MoveSelectedPortrait(int selectedPartyMemberIdx)
     {
-        int currentlySelectedIdx = playerParty.SelectedMemberIdx;
-        GameObject currentlySelectedPortrait = playerPortraitList[currentlySelectedIdx].gameObject;
-        Vector3 selectedPos = currentlySelectedPortrait.transform.position;
+        Vector3 bottomLeftPos = playerPortraitTemplate.transform.position;
+        GameObject currentlySelectedPortrait = playerPortraitList[prevSelectedIndex].gameObject;
 
         GameObject nextSelectedPortrait = playerPortraitList[selectedPartyMemberIdx].gameObject;
         Vector3 nextPos = nextSelectedPortrait.transform.position;
 
-        nextSelectedPortrait.transform.position = selectedPos;
+        nextSelectedPortrait.transform.position = bottomLeftPos;
         currentlySelectedPortrait.transform.position = nextPos;
     }
 
