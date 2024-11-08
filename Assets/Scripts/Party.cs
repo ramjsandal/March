@@ -134,9 +134,11 @@ public class Party : MonoBehaviour
 
     public void SelectPartyMember(int index)
     {
-        SelectedMemberIdx = index;
+
         IndexEventArgs args = new IndexEventArgs();
-        args.Index = index;
+        args.OldIndex = SelectedMemberIdx;
+        SelectedMemberIdx = index;
+        args.NewIndex = index;
         OnSelectedPartyMember(args);
         Camera.main.transform.position = partyMembers[SelectedMemberIdx].transform.position + new Vector3(0, 0, -1);
     }
@@ -151,7 +153,8 @@ public class Party : MonoBehaviour
     }
     public class IndexEventArgs : EventArgs
     {
-        public int Index { get; set; }
+        public int NewIndex { get; set; }
+        public int OldIndex { get; set; }
     }
 
     public List<Vector2Int> GetPartyPositions()

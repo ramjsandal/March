@@ -118,7 +118,7 @@ public class BattleManager : MonoBehaviour
         enemyPartyList[fightingGroup].battling = true;
         battleCanvas.gameObject.SetActive(true);
         GeneratePlayerPortraits();
-        MoveSelectedPortrait(playerParty.SelectedMemberIdx);
+        playerParty.SelectPartyMember(playerParty.SelectedMemberIdx);
         HighlightAction();
         Debug.Log("STARTED A BATTLE");
     }
@@ -205,10 +205,8 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EndTurn());
     }
 
-    private int prevSelectedIndex = 0;
     public void SelectPartyMember(int index)
     {
-        prevSelectedIndex = playerParty.SelectedMemberIdx;
         playerParty.SelectPartyMember(index);
     }
 
@@ -218,7 +216,7 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        MoveSelectedPortrait(e.Index);
+        MoveSelectedPortrait(e.OldIndex, e.NewIndex);
         HighlightAction();
     }
 
@@ -237,12 +235,12 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    private void MoveSelectedPortrait(int selectedPartyMemberIdx)
+    private void MoveSelectedPortrait(int oldIdx, int newIdx)
     {
         Vector3 bottomLeftPos = playerPortraitTemplate.transform.position;
-        GameObject currentlySelectedPortrait = playerPortraitList[prevSelectedIndex].gameObject;
+        GameObject currentlySelectedPortrait = playerPortraitList[oldIdx].gameObject;
 
-        GameObject nextSelectedPortrait = playerPortraitList[selectedPartyMemberIdx].gameObject;
+        GameObject nextSelectedPortrait = playerPortraitList[newIdx].gameObject;
         Vector3 nextPos = nextSelectedPortrait.transform.position;
 
         nextSelectedPortrait.transform.position = bottomLeftPos;
