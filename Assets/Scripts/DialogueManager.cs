@@ -53,9 +53,12 @@ public class DialogueManager : MonoBehaviour
         DisplayNextSentence();
     }
 
+    private bool typing;
+    private string currentSentence;
     IEnumerator TypeSentence(string sentance)
     {
-        Debug.Log("typing next");
+        currentSentence = sentance;
+        typing = true;
         speakerSentence.text = "";
 
         foreach (char c in sentance)
@@ -63,14 +66,22 @@ public class DialogueManager : MonoBehaviour
             speakerSentence.text += c;
             yield return new WaitForSeconds(0.01f);
         }
+
+        typing = false;
     }
 
     public void DisplayNextSentence()
     {
-        Debug.Log("displaying next");
+        if (typing)
+        {
+            StopAllCoroutines();
+            speakerSentence.text = currentSentence;
+            typing = false;
+            return;
+        }
+
         if (sentences.Count <= 0)
         {
-            Debug.Log("no more sentences");
             EndDialogue();
             return;
         }
