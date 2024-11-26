@@ -37,9 +37,9 @@ public class BattleManager : MonoBehaviour
             var currentPortrait = Instantiate(playerPortraitTemplate, new Vector3(defaultPos.x + (i * width), defaultPos.y, defaultPos.z), Quaternion.identity);
             currentPortrait.transform.SetParent(battleCanvas.transform);
             var portScript = currentPortrait.GetComponent<UIPortrait>();
-            portScript.healthText.text = playerParty.partyMembers[i].health.ToString();
+            portScript.healthText.text = $"\n{playerParty.partyMembers[i].health.ToString()}";
             portScript.image.sprite = playerParty.partyMembers[i].portrait;
-            portScript.actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
+            portScript.actionPointsText.text = $"\n{playerParty.partyMembers[i].actionPoints.ToString()}";
             portScript.playerIndex = i;
             currentPortrait.gameObject.SetActive(true);
             playerPortraitList.Add(currentPortrait);
@@ -51,7 +51,7 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < playerPortraitList.Count; i++)
         {
-            playerPortraitList[i].healthText.text = playerParty.partyMembers[i].health.ToString();
+            playerPortraitList[i].healthText.text = $"\n{playerParty.partyMembers[i].health.ToString()}";
         }
     }
 
@@ -64,7 +64,7 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < playerPortraitList.Count; i++)
         {
-            playerPortraitList[i].actionPointsText.text = playerParty.partyMembers[i].actionPoints.ToString();
+            playerPortraitList[i].actionPointsText.text = $"\n{playerParty.partyMembers[i].actionPoints.ToString()}";
         }
     }
     private void Awake()
@@ -222,15 +222,16 @@ public class BattleManager : MonoBehaviour
 
     private void HighlightAction()
     {
+        Color tint = Player.tint;
         if (playerParty.partyMembers[playerParty.SelectedMemberIdx].GetSelectedAction() == SelectedAction.MOVING)
         {
-            moveButton.color = Color.red;
+            moveButton.color = tint;
             attackButton.color = Color.white;
         }
         else
         {
             moveButton.color = Color.white;
-            attackButton.color = Color.red;
+            attackButton.color = tint;
         }
 
     }

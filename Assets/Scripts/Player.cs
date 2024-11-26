@@ -8,6 +8,8 @@ public class Player : Agent
     public int attackRange = 1;
     public int attackDamage = 10;
     private List<Vector2Int> _attackableTiles = new List<Vector2Int>();
+    //private Color tint = new Color(255f / 255f, 127f / 255f, 127f / 255f);
+    public static Color tint = new Color(219f / 255f, 65f / 255f, 97f / 255f);
     protected void Start()
     {
         actionPoints = 2;
@@ -39,7 +41,7 @@ public class Player : Agent
         List<NodeInfo> attackableTiles = IndicateAttackable();
         List<Vector2Int> coords = attackableTiles.Select(a => a.position).ToList();
         _attackableTiles = coords;
-        _gridManager.TintTiles(coords, Color.red);
+        _gridManager.TintTiles(coords, tint);
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             if (coords.Contains(_gridManager.MouseToGrid()) && EnemyAtMouse())
@@ -56,7 +58,7 @@ public class Player : Agent
         List<NodeInfo> travTiles = _gridManager.IndicateMovable(gridPos.Value, moveRange);
         _paths = travTiles;
         List<Vector2Int> coords = travTiles.Select(a => a.position).ToList();
-        _gridManager.TintTiles(coords, Color.red);
+        _gridManager.TintTiles(coords, tint);
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
