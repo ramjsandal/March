@@ -55,6 +55,11 @@ public class Party : MonoBehaviour
 
         if (!battling)
         {
+            if (DialogueManager.Instance.inDialogue)
+            {
+                return;
+            }
+
             // collapse / uncollapse party
             if (Input.GetKeyDown(KeyCode.P))
             {

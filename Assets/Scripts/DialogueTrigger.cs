@@ -18,6 +18,7 @@ public class DialogueTrigger : MonoBehaviour
         gridManager.SetOccupied(gridManager.GetCellPosition(this.transform.position), true);
         playerParty = FindFirstObjectByType<Party>();
         gridPos = gridManager.GetCellPosition(this.gameObject.transform.position);
+        transform.position = gridManager.GetTileCenter(gridPos);
     }
 
     public void TriggerDialogue()

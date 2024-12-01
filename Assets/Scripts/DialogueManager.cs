@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     public TMP_Text speakerSentence;
 
     private Queue<string> sentences;
-    private bool inDialogue;
+    public bool inDialogue;
 
     private void Awake()
     {
