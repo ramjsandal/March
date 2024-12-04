@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Agent;
 using static Party;
@@ -270,7 +271,7 @@ public class BattleManager : MonoBehaviour
 
     private void EndGame()
     {
-
+        SceneManager.LoadScene(0);
     }
 
 }
