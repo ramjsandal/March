@@ -55,7 +55,6 @@ public class Enemy : Agent
         }
         closestSquares.Sort((a, b) => a.Item2.CompareTo(b.Item2));
         StartCoroutine(MoveAlongPath(PathToSquare(closestSquares[0].Item1)));
-        //Teleport(closestSquares[0].Item1);
         actionPoints--;
         return;
     }

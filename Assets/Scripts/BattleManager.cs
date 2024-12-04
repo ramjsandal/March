@@ -112,6 +112,7 @@ public class BattleManager : MonoBehaviour
 
         if (fightingGroup == -1) { return; }
 
+        if (playerParty.collapsed) playerParty.ExpandParty();
         enemyBattling = fightingGroup;
         battling = true;
         playerParty.battling = true;
@@ -157,7 +158,7 @@ public class BattleManager : MonoBehaviour
                 {
                     while (e.alive && e.actionPoints > 0)
                     {
-                        if (!e.moving)
+                        if (!e.moving && !e.animating)
                         {
                             e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
                         }
@@ -171,7 +172,7 @@ public class BattleManager : MonoBehaviour
                 playerTurn = true;
                 playerParty.ReplenishActionPoints();
                 enemyPartyList[enemyBattling].ResetActionPoints();
-
+                playerParty.FocusCameraOnSelectedPlayer();
             }
             else
             {

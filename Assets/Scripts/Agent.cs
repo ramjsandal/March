@@ -44,9 +44,9 @@ public class Agent : MonoBehaviour
         set
         {
             _moving = value;
+            Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
             if (_moving == false)
             {
-                Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
                 OnStoppedMoving(null);
             }
 
@@ -84,6 +84,15 @@ public class Agent : MonoBehaviour
     public int moveRange = 4;
 
     public bool alive = true;
+
+    public event EventHandler AgentDied;
+    public void OnAgentDied(EventArgs e)
+    {
+        if (AgentDied != null)
+        {
+            AgentDied(this, e);
+        }
+    }
 
     public event EventHandler StoppedMoving;
 
@@ -212,6 +221,7 @@ public class Agent : MonoBehaviour
     {
         health -= dmg;
         OnTookDamage(null);
+        DamageAnimWrapper();
         if (health <= 0)
         {
             gridPos = null;
@@ -219,6 +229,23 @@ public class Agent : MonoBehaviour
             alive = false;
             gameObject.SetActive(false);
         }
+    }
+
+    public bool animating = false;
+    IEnumerator DamageAnim()
+    {
+        animating = true;
+        var spr = GetComponent<SpriteRenderer>();
+        spr.color = Color.red;
+        yield return new WaitForSeconds(.5f);
+        Debug.Log("MADE IT HERE");
+        spr.color = Color.white;
+        animating = false;
+    }
+
+    public void DamageAnimWrapper()
+    {
+        StartCoroutine(DamageAnim());
     }
 
 

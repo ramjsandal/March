@@ -7,7 +7,7 @@ public class Party : MonoBehaviour
 {
     public List<Player> partyMembers = new List<Player>();
 
-    private bool collapsed = false;
+    public bool collapsed = false;
 
     private bool _battling;
     public bool battling
@@ -40,8 +40,14 @@ public class Party : MonoBehaviour
     public void Update()
     {
 
+        // if its dead, we should swap party members
+        if (!partyMembers[SelectedMemberIdx].alive)
+        {
+            SelectPartyMember(NextPartyMemberIdx());
+        }
+
         // if its moving, we cannot put in any inputs
-        if (partyMembers[SelectedMemberIdx].moving)
+        if (partyMembers[SelectedMemberIdx].moving || partyMembers[SelectedMemberIdx].animating)
         {
             return;
         }
@@ -95,7 +101,7 @@ public class Party : MonoBehaviour
         collapsed = true;
     }
 
-    private void ExpandParty()
+    public void ExpandParty()
     {
         int partySize = partyMembers.Count;
         List<Vector2Int> closestSquares = partyMembers[SelectedMemberIdx].GetClosestSquares(partySize);
@@ -139,7 +145,10 @@ public class Party : MonoBehaviour
 
     public void SelectPartyMember(int index)
     {
-
+        if (!partyMembers[index].alive)
+        {
+            return;
+        }
         IndexEventArgs args = new IndexEventArgs();
         args.OldIndex = SelectedMemberIdx;
         SelectedMemberIdx = index;
@@ -195,5 +204,21 @@ public class Party : MonoBehaviour
     public void SetSelectedPartyMemberMode(SelectedAction action)
     {
         partyMembers[SelectedMemberIdx].SetSelectedAction(action);
+    }
+
+    public void FocusCameraOnSelectedPlayer()
+    {
+        Camera.main.transform.position = partyMembers[SelectedMemberIdx].transform.position + new Vector3(0, 0, -1);
+    }
+
+    private int NextPartyMemberIdx()
+    {
+        if (SelectedMemberIdx < 3)
+        {
+            return SelectedMemberIdx + 1;
+        } else
+        {
+            return 0;
+        }
     }
 }
