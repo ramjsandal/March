@@ -216,9 +216,19 @@ public class Party : MonoBehaviour
         if (SelectedMemberIdx < 3)
         {
             return SelectedMemberIdx + 1;
-        } else
+        }
+        else
         {
             return 0;
         }
+    }
+    public int NumAliveMembers()
+    {
+        int retVal = 0;
+        foreach (var partyMember in partyMembers)
+        {
+            if (partyMember.alive) retVal++;
+        }
+        return retVal;
     }
 }

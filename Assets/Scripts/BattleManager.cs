@@ -83,7 +83,7 @@ public class BattleManager : MonoBehaviour
             playerParty = GameObject.FindObjectOfType<Party>();
             enemyPartyList = new List<EnemyParty>();
             enemyPartyList.AddRange(GameObject.FindObjectsOfType<EnemyParty>());
-            playerParty.SelectedPartyMember += UpdateSelectedPlayer; 
+            playerParty.SelectedPartyMember += UpdateSelectedPlayer;
             foreach (Player p in playerParty.partyMembers)
             {
                 p.StoppedMoving += CheckBattleStart;
@@ -119,8 +119,12 @@ public class BattleManager : MonoBehaviour
         playerParty.battling = true;
         enemyPartyList[fightingGroup].battling = true;
         battleCanvas.gameObject.SetActive(true);
-        GeneratePlayerPortraits();
-        playerParty.SelectPartyMember(playerParty.SelectedMemberIdx);
+        if (playerPortraitList == null)
+        {
+            GeneratePlayerPortraits();
+            playerParty.SelectPartyMember(playerParty.SelectedMemberIdx);
+        }
+        
         HighlightAction();
         Debug.Log("STARTED A BATTLE");
     }
@@ -159,6 +163,11 @@ public class BattleManager : MonoBehaviour
                 {
                     while (e.alive && e.actionPoints > 0)
                     {
+                        if (playerParty.NumAliveMembers() == 0)
+                        {
+                            EndGame();
+                            yield break;
+                        }
                         bool playerAnimating = playerParty.partyMembers.Where(a => a.animating).Count() > 0;
                         if (!e.moving && !playerAnimating)
                         {
@@ -257,6 +266,11 @@ public class BattleManager : MonoBehaviour
     {
         playerParty.SetSelectedPartyMemberMode((SelectedAction)action);
         HighlightAction();
+    }
+
+    private void EndGame()
+    {
+
     }
 
 }
