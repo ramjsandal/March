@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static Agent;
@@ -158,13 +159,15 @@ public class BattleManager : MonoBehaviour
                 {
                     while (e.alive && e.actionPoints > 0)
                     {
-                        if (!e.moving && !e.animating)
+                        bool playerAnimating = playerParty.partyMembers.Where(a => a.animating).Count() > 0;
+                        if (!e.moving && !playerAnimating)
                         {
                             e.MakeMove(playerParty.partyMembers.Where(a => a.alive).ToList());
                         }
-                        while (e.moving)
+                        while (e.moving || playerAnimating)
                         {
                             yield return new WaitForSeconds(.25f);
+                            playerAnimating = playerParty.partyMembers.Where(a => a.animating).Count() > 0;
                         }
                     }
                 }

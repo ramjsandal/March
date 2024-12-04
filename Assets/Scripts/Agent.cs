@@ -227,6 +227,7 @@ public class Agent : MonoBehaviour
             gridPos = null;
             Debug.Log("Died");
             alive = false;
+            animating = false;
             gameObject.SetActive(false);
         }
     }
@@ -237,7 +238,7 @@ public class Agent : MonoBehaviour
         animating = true;
         var spr = GetComponent<SpriteRenderer>();
         spr.color = Color.red;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         Debug.Log("MADE IT HERE");
         spr.color = Color.white;
         animating = false;

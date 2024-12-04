@@ -156,6 +156,7 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
   attackRange: 1
   attackDamage: 10
 --- !u!212 &56303874
@@ -1066,6 +1067,7 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
   attackRange: 1
   attackDamage: 10
 --- !u!1 &519420028
@@ -1405,6 +1407,7 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
 --- !u!212 &732896778
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1597,6 +1600,7 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
 --- !u!212 &744181975
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -31563,7 +31567,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 8
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -31583,7 +31587,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 4
+      m_TileSpriteIndex: 7
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -33198,16 +33202,16 @@ Tilemap:
     m_Data: {fileID: -2647379, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -1446411446, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 3
+    m_Data: {fileID: -592215234, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -81134609, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1591631699, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
-  - m_RefCount: 3
-    m_Data: {fileID: -592215234, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 13
     m_Data: {fileID: 17424701, guid: 146fa11722c97e549898b1e26c71fc29, type: 3}
   - m_RefCount: 3
@@ -33430,8 +33434,9 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
   attackRange: 1
-  attackDamage: 10
+  attackDamage: 7
 --- !u!212 &1150384948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -76476,7 +76481,7 @@ Transform:
   m_GameObject: {fileID: 1918078089}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.02, y: 15.12, z: 0.009416328}
+  m_LocalPosition: {x: -30.02, y: 15.3, z: 0.009416328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76503,6 +76508,7 @@ MonoBehaviour:
   - {fileID: 476879767}
   - {fileID: 1988904502}
   - {fileID: 56303873}
+  collapsed: 0
 --- !u!1 &1988904498
 GameObject:
   m_ObjectHideFlags: 0
@@ -76604,6 +76610,7 @@ MonoBehaviour:
   health: 10
   moveRange: 4
   alive: 1
+  animating: 0
   attackRange: 1
   attackDamage: 10
 --- !u!1 &2046095887
