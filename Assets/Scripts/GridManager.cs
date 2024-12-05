@@ -410,6 +410,7 @@ public class GridManager : MonoBehaviour
     }
 
 
+    // CHECKS FOR TRAVERSIBLE AND UNOCCUPIED
     public List<Vector2Int> FindClosestTraversible(Vector2Int startingSquare, int numSquaresToFind)
     {
         PriorityQueue<NodeInfo, int> toSearch = new PriorityQueue<NodeInfo, int>();
@@ -443,6 +444,11 @@ public class GridManager : MonoBehaviour
 
                 // if it isnt traversible, ignore this node
                 if (!map[neighbor.position].traversable)
+                {
+                    continue;
+                }
+
+                if (map[neighbor.position].occupied)
                 {
                     continue;
                 }

@@ -61,7 +61,15 @@ public class Player : Agent
         _gridManager.TintTiles(coords, tint);
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            StartCoroutine(MoveAlongPath(PathToSquare(_gridManager.MouseToGrid())));
+
+            // IF THIS IS NOT A VALID POSITION, DONT MOVE
+            var posn = _gridManager.MouseToGrid();
+            if (!coords.Contains(posn))
+            {
+                return;
+            }
+
+            StartCoroutine(MoveAlongPath(PathToSquare(posn)));
             if (useActionPoint)
             {
                 actionPoints--;
@@ -83,6 +91,10 @@ public class Player : Agent
             if (enemy != null && _attackableTiles.Contains(enemy.gridPos.Value))
             {
                 enemy.TakeDamage(attackDamage);
+                if (!BattleManager.Instance.EnemiesAlive())
+                {
+                    BattleManager.Instance.EndTurnWrapper();
+                }
             }
         }
     }

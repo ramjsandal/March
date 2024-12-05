@@ -88,7 +88,7 @@ public class Party : MonoBehaviour
         }
     }
 
-    private void CollapseParty()
+    public void CollapseParty()
     {
         for (int i = 0; i < partyMembers.Count; i++)
         {

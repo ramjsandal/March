@@ -125,7 +125,7 @@ public class BattleManager : MonoBehaviour
             GeneratePlayerPortraits();
             playerParty.SelectPartyMember(playerParty.SelectedMemberIdx);
         }
-        
+
         HighlightAction();
         Debug.Log("STARTED A BATTLE");
     }
@@ -204,6 +204,7 @@ public class BattleManager : MonoBehaviour
                 battleCanvas.gameObject.SetActive(false);
                 enemyBattling = -1;
                 playerParty.ReplenishActionPoints();
+                playerParty.CollapseParty();
             }
         }
         else
@@ -214,9 +215,13 @@ public class BattleManager : MonoBehaviour
         yield return null;
     }
 
+    //called in ui
     public void EndTurnWrapper()
     {
-        StartCoroutine(EndTurn());
+        if (playerTurn)
+        {
+            StartCoroutine(EndTurn());
+        }
     }
 
     public void SelectPartyMember(int index)
@@ -272,6 +277,13 @@ public class BattleManager : MonoBehaviour
     private void EndGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public bool EnemiesAlive()
+    {
+
+        var enemyParty = enemyPartyList[enemyBattling];
+        return enemyParty.NumAliveMembers() > 0;
     }
 
 }

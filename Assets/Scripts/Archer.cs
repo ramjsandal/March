@@ -9,8 +9,6 @@ public class Archer : Player
     void Start()
     {
         base.Start();
-        this.attackRange = 3;
-        this.attackDamage = 4;
     }
     protected override void Attack()
     {
