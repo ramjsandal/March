@@ -199,7 +199,6 @@ public class BattleManager : MonoBehaviour
             {
                 battling = false;
                 enemyPartyList[enemyBattling].battling = false;
-                enemyPartyList[enemyBattling].alive = false;
                 playerParty.battling = false;
                 battleCanvas.gameObject.SetActive(false);
                 enemyBattling = -1;

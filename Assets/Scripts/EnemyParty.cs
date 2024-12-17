@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class EnemyParty : MonoBehaviour
 {
-    public bool alive = true;
     public List<Enemy> partyMembers = new List<Enemy>();
     private List<Vector2Int> aggroSquares = new List<Vector2Int>();
 
@@ -28,8 +27,6 @@ public class EnemyParty : MonoBehaviour
         {
             enemy.Initialize();
         }
-
-        alive = true;
         GenerateAggroSquares();
     }
 
@@ -44,7 +41,7 @@ public class EnemyParty : MonoBehaviour
     }
     public List<Vector2Int> GetAggroSquares()
     {
-        if (alive)
+        if (IsAlive())
         {
             return aggroSquares;
         }
@@ -82,5 +79,10 @@ public class EnemyParty : MonoBehaviour
             if (partyMember.alive) retVal++;
         }
         return retVal;
+    }
+
+    public bool IsAlive()
+    {
+        return NumAliveMembers() > 0;
     }
 }
