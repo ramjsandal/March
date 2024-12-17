@@ -94,8 +94,7 @@ public class Party : MonoBehaviour
         {
             if (i != _selectedMemberIdx)
             {
-                partyMembers[i].gridPos = null;
-                partyMembers[i].gameObject.SetActive(false);
+                partyMembers[i].Collapse();
             }
         }
         collapsed = true;

@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class Archer : Player
 {
-    
-    void Start()
+    new void Start()
     {
         base.Start();
     }

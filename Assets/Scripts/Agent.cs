@@ -14,7 +14,7 @@ public class Agent : MonoBehaviour
     public Vector2Int? gridPos
     {
         get => _gridPos;
-        set
+        protected set
         {
             Vector2Int? oldPos = _gridPos;
 
@@ -250,5 +250,10 @@ public class Agent : MonoBehaviour
     }
 
 
+    public void Collapse()
+    {
+        gridPos = null;
+        gameObject.SetActive(false);
+    }
 
 }

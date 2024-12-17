@@ -5,7 +5,7 @@ using UnityEngine;
 public class Rider : Player
 {
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
         moveRange = 6;
