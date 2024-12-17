@@ -259,11 +259,12 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 bottomLeftPos = playerPortraitTemplate.transform.position;
         GameObject currentlySelectedPortrait = playerPortraitList[oldIdx].gameObject;
+        Vector3 currentlySelectedPosition = currentlySelectedPortrait.transform.position;
 
         GameObject nextSelectedPortrait = playerPortraitList[newIdx].gameObject;
         Vector3 nextPos = nextSelectedPortrait.transform.position;
 
-        nextSelectedPortrait.transform.position = bottomLeftPos;
+        nextSelectedPortrait.transform.position = currentlySelectedPosition;
         currentlySelectedPortrait.transform.position = nextPos;
     }
 
