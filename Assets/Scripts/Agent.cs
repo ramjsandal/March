@@ -79,7 +79,12 @@ public class Agent : MonoBehaviour
 
     public Sprite portrait;
 
-    public int health = 10;
+    private int _health = 10;
+    public int health
+    {
+        get { return _health; }
+        private set { _health = value; }
+    }
 
     public int moveRange = 4;
 
