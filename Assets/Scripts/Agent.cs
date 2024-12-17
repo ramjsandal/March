@@ -41,7 +41,7 @@ public class Agent : MonoBehaviour
             return _moving;
         }
 
-        set
+        protected set
         {
             _moving = value;
             Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
@@ -61,7 +61,7 @@ public class Agent : MonoBehaviour
             return _actionPoints;
         }
 
-        set
+        protected set
         {
             _actionPoints = value;
             OnUsedActionPoint(null);
